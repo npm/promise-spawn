@@ -68,6 +68,12 @@ class MockProc extends EE {
         this.writeOut(`UID ${this.opts.uid}\n`)
         this.writeOut(`GID ${this.opts.gid}\n`)
         return this.exit(0)
+      case 'stdout-fail':
+        this.stdout.emit('error', new Error('stdout error'))
+        return this.exit(1)
+      case 'stderr-fail':
+        this.stderr.emit('error', new Error('stderr error'))
+        return this.exit(1)
     }
   }
 }
@@ -131,6 +137,16 @@ t.test('signal', t => t.rejects(promiseSpawn('signal', [], {}, {a: 1}), {
   stderr: Buffer.from('stderr'),
   a: 1,
 }))
+
+t.test('stdio errors', t => {
+  t.rejects(promiseSpawn('stdout-fail', [], {}), {
+    message: 'stdout error',
+  })
+  t.rejects(promiseSpawn('stderr-fail', [], {}), {
+    message: 'stderr error',
+  })
+  t.end()
+})
 
 t.test('infer ownership', t => {
   const {lstat} = fs
