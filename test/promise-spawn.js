@@ -12,6 +12,7 @@ class MockProc extends EE {
     this.opts = opts
     this.stdout = opts.stdio === 'inherit' ? null : new Minipass()
     this.stderr = opts.stdio === 'inherit' ? null : new Minipass()
+    this.stdin = opts.stdio === 'inherit' ? null : new Minipass()
     this.code = null
     this.signal = null
     process.nextTick(() => this.run())
@@ -51,6 +52,10 @@ class MockProc extends EE {
 
   run () {
     switch (this.cmd) {
+      case 'cat':
+        this.stdin.on('data', c => this.writeOut(c))
+        this.stdin.on('end', () => this.exit(0))
+        return
       case 'not found':
         return this.emit('error', new Error('command not found'))
       case 'signal':
@@ -146,6 +151,19 @@ t.test('stdio errors', t => {
     message: 'stderr error',
   })
   t.end()
+})
+
+t.test('expose process stdin', t => {
+  const p = promiseSpawn('cat', [], { stdio: 'pipe' })
+  t.resolveMatch(p, {
+    code: 0,
+    signal: null,
+    stdout: Buffer.from('hello'),
+    stderr: Buffer.alloc(0),
+  })
+  t.end()
+  p.stdin.write('hell')
+  setTimeout(() => p.stdin.end('o'))
 })
 
 t.test('infer ownership', t => {
