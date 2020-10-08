@@ -3,7 +3,7 @@ const {spawn} = require('child_process')
 const inferOwner = require('infer-owner')
 
 // 'extra' object is for decorating the error a bit more
-const promiseSpawn = (cmd, args, opts, extra = {}) => {
+const promiseSpawn = (cmd, args, opts = {}, extra = {}) => {
   const cwd = opts.cwd || process.cwd()
   const isRoot = process.getuid && process.getuid() === 0
   return !isRoot ? promiseSpawnUid(cmd, args, {
