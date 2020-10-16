@@ -166,6 +166,18 @@ t.test('expose process stdin', t => {
   setTimeout(() => p.stdin.end('o'))
 })
 
+t.test('expose process', t => {
+  const p = promiseSpawn('cat', [], { stdio: 'pipe' })
+  t.resolveMatch(p, {
+    code: 0,
+    signal: null,
+    stdout: Buffer.alloc(0),
+    stderr: Buffer.alloc(0),
+  })
+  t.end()
+  setTimeout(() => p.process.exit(0))
+})
+
 t.test('infer ownership', t => {
   const {lstat} = fs
   t.teardown(() => fs.lstat = lstat)
