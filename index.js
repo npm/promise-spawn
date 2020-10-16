@@ -67,6 +67,7 @@ const promiseSpawnUid = (cmd, args, opts, extra) => {
   })
 
   p.stdin = proc.stdin
+  p.process = proc
   return p
 }
 
