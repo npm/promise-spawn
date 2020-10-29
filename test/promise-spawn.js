@@ -200,9 +200,9 @@ t.test('expose process', t => {
 })
 
 t.test('infer ownership', t => {
-  const {lstat} = fs
-  t.teardown(() => fs.lstat = lstat)
-  fs.lstat = (path, cb) => cb(null, { uid: 420, gid: 69 })
+  const { lstatSync } = fs
+  t.teardown(() => fs.lstatSync = lstatSync)
+  fs.lstatSync = (path) => ({ uid: 420, gid: 69 })
   const getuid = process.getuid
   t.teardown(() => process.getuid = getuid)
 
