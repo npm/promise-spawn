@@ -1,7 +1,5 @@
 const {spawn} = require('child_process')
 
-const inferOwner = require('infer-owner')
-
 const isPipe = (stdio = 'pipe', fd) =>
   stdio === 'pipe' || stdio === null ? true
   : Array.isArray(stdio) ? isPipe(stdio[fd], fd)
@@ -10,13 +8,9 @@ const isPipe = (stdio = 'pipe', fd) =>
 // 'extra' object is for decorating the error a bit more
 const promiseSpawn = (cmd, args, opts, extra = {}) => {
   const cwd = opts.cwd || process.cwd()
-  const isRoot = process.getuid && process.getuid() === 0
-  const { uid, gid } = isRoot ? inferOwner.sync(cwd) : {}
   return promiseSpawnUid(cmd, args, {
     ...opts,
     cwd,
-    uid,
-    gid
   }, extra)
 }
 

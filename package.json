@@ -25,8 +25,5 @@
     "minipass": "^3.1.1",
     "require-inject": "^1.4.4",
     "tap": "^14.10.6"
-  },
-  "dependencies": {
-    "infer-owner": "^1.0.4"
   }
 }

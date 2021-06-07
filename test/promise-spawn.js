@@ -198,33 +198,3 @@ t.test('expose process', t => {
   t.end()
   setTimeout(() => p.process.exit(0))
 })
-
-t.test('infer ownership', t => {
-  const { lstatSync } = fs
-  t.teardown(() => fs.lstatSync = lstatSync)
-  fs.lstatSync = (path) => ({ uid: 420, gid: 69 })
-  const getuid = process.getuid
-  t.teardown(() => process.getuid = getuid)
-
-  t.test('as non-root, do not change uid/gid, regardless of arguments', t => {
-    process.getuid = () => 1234
-    return t.resolveMatch(promiseSpawn('whoami', [], { uid: 4321, gid: 9876 }), {
-      code: 0,
-      signal: null,
-      stdout: Buffer.from('UID undefined\nGID undefined\n'),
-      stderr: Buffer.alloc(0),
-    })
-  })
-
-  t.test('as root, change uid/gid to folder, regardless of arguments', t => {
-    process.getuid = () => 0
-    return t.resolveMatch(promiseSpawn('whoami', [], { uid: 4321, gid: 9876 }), {
-      code: 0,
-      signal: null,
-      stdout: Buffer.from('UID 420\nGID 69\n'),
-      stderr: Buffer.alloc(0),
-    })
-  })
-
-  t.end()
-})
