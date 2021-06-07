@@ -52,7 +52,7 @@ const promiseSpawnUid = (cmd, args, opts, extra) => {
         code,
         signal,
         ...stdioResult(stdout, stderr, opts),
-        ...extra
+        ...extra,
       }
       if (code || signal)
         rej(Object.assign(new Error('command failed'), result))

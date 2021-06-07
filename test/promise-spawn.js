@@ -2,7 +2,6 @@ const t = require('tap')
 const requireInject = require('require-inject')
 const Minipass = require('minipass')
 const EE = require('events')
-const fs = require('fs')
 
 const isPipe = (stdio = 'pipe', fd) =>
   stdio === 'pipe' || stdio === null ? true
@@ -22,6 +21,7 @@ class MockProc extends EE {
     this.signal = null
     process.nextTick(() => this.run())
   }
+
   exit (code) {
     this.code = code
     this.emit('exit', this.code, this.signal)
@@ -43,6 +43,7 @@ class MockProc extends EE {
     } else
       this.emit('close', this.code, this.signal)
   }
+
   kill (signal) {
     this.signal = signal
     this.exit(null)
@@ -51,6 +52,7 @@ class MockProc extends EE {
   writeOut (m) {
     this.stdout && this.stdout.write(m)
   }
+
   writeErr (m) {
     this.stderr && this.stderr.write(m)
   }

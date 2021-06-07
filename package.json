@@ -16,12 +16,18 @@
     "snap": "tap",
     "preversion": "npm test",
     "postversion": "npm publish",
-    "prepublishOnly": "git push origin --follow-tags"
+    "prepublishOnly": "git push origin --follow-tags",
+    "npmclilint": "npmcli-lint",
+    "lint": "npm run npmclilint -- \"*.*js\" \"test/**/*.*js\"",
+    "lintfix": "npm run lint -- --fix",
+    "posttest": "npm run lint --",
+    "postsnap": "npm run lintfix --"
   },
   "tap": {
     "check-coverage": true
   },
   "devDependencies": {
+    "@npmcli/lint": "^1.0.1",
     "minipass": "^3.1.1",
     "require-inject": "^1.4.4",
     "tap": "^15.0.9"
