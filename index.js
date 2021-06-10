@@ -6,7 +6,7 @@ const isPipe = (stdio = 'pipe', fd) =>
   : false
 
 // 'extra' object is for decorating the error a bit more
-const promiseSpawn = (cmd, args, opts, extra = {}) => {
+const promiseSpawn = (cmd, args, opts = {}, extra = {}) => {
   const cwd = opts.cwd || process.cwd()
   return promiseSpawnUid(cmd, args, {
     ...opts,
