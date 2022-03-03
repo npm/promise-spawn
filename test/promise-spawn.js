@@ -115,6 +115,11 @@ t.test('pass', t => t.resolveMatch(promiseSpawn('pass', [], {stdioString: true},
   a: 1,
 }))
 
+t.test('pass, default opts', t => t.resolveMatch(promiseSpawn('pass', []), {
+  code: 0,
+  signal: null
+}))
+
 t.test('pass, share stdio', t => t.resolveMatch(promiseSpawn('pass', [], { stdio: 'inherit'}, {a: 1}), {
   code: 0,
   signal: null,
