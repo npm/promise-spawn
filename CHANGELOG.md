@@ -1,5 +1,15 @@
 # Changelog
 
+## [4.0.0](https://github.com/npm/promise-spawn/compare/v3.0.0...v4.0.0) (2022-10-10)
+
+### ⚠️ BREAKING CHANGES
+
+* `@npmcli/promise-spawn` is now compatible with the following semver range for node: `^14.17.0 || ^16.13.0 || >=18.0.0`
+
+### Features
+
+* [`4fba970`](https://github.com/npm/promise-spawn/commit/4fba970efe7ad586cd3c4a817fc10d364dee7421) [#29](https://github.com/npm/promise-spawn/pull/29) postinstall for dependabot template-oss PR (@lukekarrys)
+
 ## [3.0.0](https://github.com/npm/promise-spawn/compare/v2.0.1...v3.0.0) (2022-04-05)
 
 
