@@ -74,6 +74,9 @@ class MockProc extends EE {
       case 'pass':
         this.writeOut('OK :)')
         return this.exit(0)
+      case 'pass-nl':
+        this.writeOut('OK :)\n')
+        return this.exit(0)
       case 'fail':
         this.writeOut('not ok :(')
         this.writeErr('Some kind of helpful error')
@@ -116,6 +119,13 @@ t.test('pass', t => t.resolveMatch(promiseSpawn('pass', [], { stdioString: true 
   stdout: 'OK :)',
   stderr: '',
   a: 1,
+}))
+
+t.test('pass trim output', t => t.resolveMatch(promiseSpawn('pass-nl', [], { stdioString: true }), {
+  code: 0,
+  signal: null,
+  stdout: 'OK :)',
+  stderr: '',
 }))
 
 t.test('pass, default opts', t => t.resolveMatch(promiseSpawn('pass', []), {
