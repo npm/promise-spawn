@@ -1,5 +1,20 @@
 # Changelog
 
+## [5.0.0](https://github.com/npm/promise-spawn/compare/v4.0.0...v5.0.0) (2022-10-26)
+
+### ⚠️ BREAKING CHANGES
+
+* leading and trailing whitespace is no longer preserved when stdioStrings is set
+* this module no longer attempts to infer a uid and gid for processes
+
+### Features
+
+* [`422e1b6`](https://github.com/npm/promise-spawn/commit/422e1b6005baa7ca3d5cd70180e3fbea0cf07dd9) [#40](https://github.com/npm/promise-spawn/pull/40) remove infer-owner (#40) (@nlf, @wraithgar)
+
+### Bug Fixes
+
+* [`0f3dc07`](https://github.com/npm/promise-spawn/commit/0f3dc07469226faec67550ebebad9abdfd5b63a9) [#42](https://github.com/npm/promise-spawn/pull/42) trim stdio strings before returning when stdioStrings is set (#42) (@nlf)
+
 ## [4.0.0](https://github.com/npm/promise-spawn/compare/v3.0.0...v4.0.0) (2022-10-10)
 
 ### ⚠️ BREAKING CHANGES
