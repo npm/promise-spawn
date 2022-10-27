@@ -54,4 +54,9 @@ spawned process.
 - `cwd` String, default `process.cwd()`.  Current working directory for
   running the script.  Also the argument to `infer-owner` to determine
   effective uid/gid when run as root on Unix systems.
+- `shell` Boolean or String. If false, no shell is used during spawn. If true,
+  the system default shell is used. If a String, that specific shell is used.
+  When a shell is used, the given command runs from within that shell by
+  concatenating the command and its escaped arguments and running the result.
+  This option is _not_ passed through to `child_process.spawn`.
 - Any other options for `child_process.spawn` can be passed as well.
