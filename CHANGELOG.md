@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.0.0](https://github.com/npm/promise-spawn/compare/v5.0.0...v6.0.0) (2022-11-01)
+
+### ⚠️ BREAKING CHANGES
+
+* stdout and stderr will now be returned as strings by default, for buffers set stdioString to false
+* when the `shell` option is set provided arguments will automatically be escaped
+
+### Features
+
+* [`6ab90b8`](https://github.com/npm/promise-spawn/commit/6ab90b886751c6c060bb8e4e05962185b41b648d) [#48](https://github.com/npm/promise-spawn/pull/48) switch stdioString default to true (#48) (@nlf)
+* [`a854057`](https://github.com/npm/promise-spawn/commit/a854057456532fd9cfe1b38d88bc367760139ae1) [#47](https://github.com/npm/promise-spawn/pull/47) add open method for using system default apps to open arguments (#47) (@nlf)
+* [`723fc32`](https://github.com/npm/promise-spawn/commit/723fc3200958c4b7b98328ee02269506fba253ba) [#44](https://github.com/npm/promise-spawn/pull/44) implement argument escaping when the `shell` option is set (@nlf)
+
 ## [5.0.0](https://github.com/npm/promise-spawn/compare/v4.0.0...v5.0.0) (2022-10-26)
 
 ### ⚠️ BREAKING CHANGES

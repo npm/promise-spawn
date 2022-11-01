@@ -1,6 +1,6 @@
 {
   "name": "@npmcli/promise-spawn",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "files": [
     "bin/",
     "lib/"
