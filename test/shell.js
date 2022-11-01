@@ -19,8 +19,8 @@ t.test('sh', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from('hello\n'),
-      stderr: Buffer.from(''),
+      stdout: 'hello',
+      stderr: '',
     })
 
     t.ok(proc.called)
@@ -34,8 +34,8 @@ t.test('sh', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from('hello\n'),
-      stderr: Buffer.from(''),
+      stdout: 'hello',
+      stderr: '',
     })
 
     t.ok(proc.called)
@@ -56,8 +56,8 @@ t.test('cmd', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from('hello\n'),
-      stderr: Buffer.from(''),
+      stdout: 'hello',
+      stderr: '',
     })
 
     t.ok(proc.called)
@@ -74,8 +74,8 @@ t.test('cmd', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from('hello\n'),
-      stderr: Buffer.from(''),
+      stdout: 'hello',
+      stderr: '',
     })
 
     t.ok(proc.called)
@@ -92,8 +92,8 @@ t.test('cmd', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from('hello\n'),
-      stderr: Buffer.from(''),
+      stdout: 'hello',
+      stderr: '',
     })
 
     t.ok(proc.called)
@@ -110,8 +110,8 @@ t.test('cmd', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from('hello\n'),
-      stderr: Buffer.from(''),
+      stdout: 'hello',
+      stderr: '',
     })
 
     t.ok(proc.called)
@@ -136,8 +136,8 @@ t.test('cmd', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
+      stdout: '',
+      stderr: '',
     })
 
     t.ok(proc.called)
@@ -162,8 +162,8 @@ t.test('cmd', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
+      stdout: '',
+      stderr: '',
     })
 
     t.ok(proc.called)
@@ -199,8 +199,8 @@ t.test('cmd', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
+      stdout: '',
+      stderr: '',
     })
 
     t.ok(proc.called)
