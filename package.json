@@ -45,6 +45,6 @@
     "version": "4.8.0"
   },
   "dependencies": {
-    "which": "^2.0.2"
+    "which": "^3.0.0"
   }
 }
