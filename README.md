@@ -11,7 +11,7 @@ const promiseSpawn = require('@npmcli/promise-spawn')
 
 promiseSpawn('ls', [ '-laF', 'some/dir/*.js' ], {
   cwd: '/tmp/some/path', // defaults to process.cwd()
-  stdioString: false, // stdout/stderr as strings rather than buffers
+  stdioString: true, // stdout/stderr as strings rather than buffers
   stdio: 'pipe', // any node spawn stdio arg is valid here
   // any other arguments to node child_process.spawn can go here as well,
 }, {
@@ -49,7 +49,7 @@ spawned process.
 
 #### Options
 
-- `stdioString` Boolean, default `false`.  Return stdout/stderr output as
+- `stdioString` Boolean, default `true`.  Return stdout/stderr output as
   strings rather than buffers.
 - `cwd` String, default `process.cwd()`.  Current working directory for
   running the script.  Also the argument to `infer-owner` to determine
