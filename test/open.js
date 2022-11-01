@@ -29,8 +29,6 @@ t.test('process.platform === win32', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
     })
 
     t.ok(proc.called)
@@ -45,8 +43,6 @@ t.test('process.platform === win32', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
     })
 
     t.ok(proc.called)
@@ -61,8 +57,6 @@ t.test('process.platform === win32', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
     })
 
     t.ok(proc.called)
@@ -85,8 +79,6 @@ t.test('process.platform === darwin', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
     })
 
     t.ok(proc.called)
@@ -99,8 +91,6 @@ t.test('process.platform === darwin', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
     })
 
     t.ok(proc.called)
@@ -113,8 +103,6 @@ t.test('process.platform === darwin', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
     })
 
     t.ok(proc.called)
@@ -137,8 +125,6 @@ t.test('process.platform === linux', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
     })
 
     t.ok(proc.called)
@@ -151,8 +137,6 @@ t.test('process.platform === linux', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
     })
 
     t.ok(proc.called)
@@ -165,8 +149,6 @@ t.test('process.platform === linux', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
     })
 
     t.ok(proc.called)
@@ -193,8 +175,6 @@ t.test('process.platform === linux', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
     })
 
     t.ok(proc.called)
@@ -218,8 +198,6 @@ t.test('process.platform === freebsd', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
     })
 
     t.ok(proc.called)
@@ -232,8 +210,6 @@ t.test('process.platform === freebsd', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
     })
 
     t.ok(proc.called)
@@ -246,8 +222,6 @@ t.test('process.platform === freebsd', (t) => {
     t.hasStrict(result, {
       code: 0,
       signal: null,
-      stdout: Buffer.from(''),
-      stderr: Buffer.from(''),
     })
 
     t.ok(proc.called)
