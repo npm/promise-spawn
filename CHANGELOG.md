@@ -1,5 +1,11 @@
 # Changelog
 
+## [6.0.1](https://github.com/npm/promise-spawn/compare/v6.0.0...v6.0.1) (2022-11-01)
+
+### Dependencies
+
+* [`b9b7a78`](https://github.com/npm/promise-spawn/commit/b9b7a788abc5cdc0b63be3f4d241ad723ef82676) [#50](https://github.com/npm/promise-spawn/pull/50) `which@3.0.0` (#50)
+
 ## [6.0.0](https://github.com/npm/promise-spawn/compare/v5.0.0...v6.0.0) (2022-11-01)
 
 ### ⚠️ BREAKING CHANGES
