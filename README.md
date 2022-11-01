@@ -60,3 +60,20 @@ spawned process.
   concatenating the command and its escaped arguments and running the result.
   This option is _not_ passed through to `child_process.spawn`.
 - Any other options for `child_process.spawn` can be passed as well.
+
+### `promiseSpawn.open(arg, opts, extra)` -> `Promise`
+
+Use the operating system to open `arg` with a default program. This is useful
+for things like opening the user's default browser to a specific URL.
+
+Depending on the platform in use this will use `start` (win32), `open` (darwin)
+or `xdg-open` (everything else). In the case of Windows Subsystem for Linux we
+use the default win32 behavior as it is much more predictable to open the arg
+using the host operating system.
+
+#### Options
+
+Options are identical to `promiseSpawn` except for the following:
+
+- `command` String, the command to use to open the file in question. Default is
+   one of `start`, `open` or `xdg-open` depending on platform in use.
