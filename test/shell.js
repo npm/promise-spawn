@@ -18,7 +18,7 @@ t.test('sh', (t) => {
     const result = await promiseSpawn('echo', ['hello'], { shell: 'sh' })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
       stdout: 'hello',
       stderr: '',
     })
@@ -33,7 +33,7 @@ t.test('sh', (t) => {
     const result = await promiseSpawn('echo', ['hello world'], { shell: 'sh' })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
       stdout: 'hello',
       stderr: '',
     })
@@ -55,7 +55,7 @@ t.test('cmd', (t) => {
     const result = await promiseSpawn('echo', ['hello'], { shell: 'cmd.exe' })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
       stdout: 'hello',
       stderr: '',
     })
@@ -73,7 +73,7 @@ t.test('cmd', (t) => {
     const result = await promiseSpawn('"echo"', ['hello'], { shell: 'cmd.exe' })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
       stdout: 'hello',
       stderr: '',
     })
@@ -91,7 +91,7 @@ t.test('cmd', (t) => {
     const result = await promiseSpawn('"two words"', ['hello'], { shell: 'cmd.exe' })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
       stdout: 'hello',
       stderr: '',
     })
@@ -109,7 +109,7 @@ t.test('cmd', (t) => {
     const result = await promiseSpawn('one two three', ['hello'], { shell: 'cmd.exe' })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
       stdout: 'hello',
       stderr: '',
     })
@@ -135,7 +135,7 @@ t.test('cmd', (t) => {
     const result = await promiseSpawnMock('dir', ['with spaces'], { shell: 'cmd.exe' })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
       stdout: '',
       stderr: '',
     })
@@ -161,7 +161,7 @@ t.test('cmd', (t) => {
     const result = await promiseSpawnMock('dir', ['with spaces'], { shell: 'cmd.exe' })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
       stdout: '',
       stderr: '',
     })
@@ -198,7 +198,7 @@ t.test('cmd', (t) => {
     })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
       stdout: '',
       stderr: '',
     })

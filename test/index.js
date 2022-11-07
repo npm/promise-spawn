@@ -17,7 +17,7 @@ t.test('defaults to returning strings', async (t) => {
   const result = await promiseSpawn('pass', [])
   t.hasStrict(result, {
     code: 0,
-    signal: null,
+    signal: undefined,
     stdout: 'OK',
     stderr: '',
   })
@@ -32,7 +32,7 @@ t.test('extra context is returned', async (t) => {
   const result = await promiseSpawn('pass', [], {}, { extra: 'property' })
   t.hasStrict(result, {
     code: 0,
-    signal: null,
+    signal: undefined,
     stdout: 'OK',
     stderr: '',
     extra: 'property',
@@ -48,7 +48,7 @@ t.test('stdioString false returns buffers', async (t) => {
   const result = await promiseSpawn('pass', [], { stdioString: false })
   t.hasStrict(result, {
     code: 0,
-    signal: null,
+    signal: undefined,
     stdout: Buffer.from('OK\n'),
     stderr: Buffer.from(''),
   })
@@ -63,7 +63,7 @@ t.test('stdout and stderr are null when stdio is inherit', async (t) => {
   const result = await promiseSpawn('pass', [], { stdio: 'inherit' })
   t.hasStrict(result, {
     code: 0,
-    signal: null,
+    signal: undefined,
     stdout: null,
     stderr: null,
   })
@@ -78,7 +78,7 @@ t.test('stdout and stderr are null when stdio is inherit and stdioString is fals
   const result = await promiseSpawn('pass', [], { stdio: 'inherit', stdioString: false })
   t.hasStrict(result, {
     code: 0,
-    signal: null,
+    signal: undefined,
     stdout: null,
     stderr: null,
   })
@@ -93,7 +93,7 @@ t.test('stdout is null when stdio is [pipe, inherit, pipe]', async (t) => {
   const result = await promiseSpawn('pass', [], { stdio: ['pipe', 'inherit', 'pipe'] })
   t.hasStrict(result, {
     code: 0,
-    signal: null,
+    signal: undefined,
     stdout: null,
     stderr: '',
   })
@@ -108,7 +108,7 @@ t.test('stderr is null when stdio is [pipe, pipe, inherit]', async (t) => {
   const result = await promiseSpawn('pass', [], { stdio: ['pipe', 'pipe', 'inherit'] })
   t.hasStrict(result, {
     code: 0,
-    signal: null,
+    signal: undefined,
     stdout: 'OK',
     stderr: null,
   })
@@ -127,7 +127,7 @@ t.test('exposes stdin', async (t) => {
   const result = await p
   t.hasStrict(result, {
     code: 0,
-    signal: null,
+    signal: undefined,
     stdout: 'hello',
     stderr: '',
   })
@@ -146,7 +146,7 @@ t.test('exposes process', async (t) => {
   if (process.platform === 'win32') {
     await t.rejects(p, {
       code: 1,
-      signal: null,
+      signal: undefined,
       stdout: '',
       stderr: '',
     })
@@ -285,7 +285,7 @@ t.test('rejects when signal kills child', async (t) => {
   if (process.platform === 'win32') {
     await t.rejects(p, {
       code: 1,
-      signal: null,
+      signal: undefined,
       stdout: '',
       stderr: '',
     })
@@ -310,7 +310,7 @@ t.test('signal death includes extra', async (t) => {
   if (process.platform === 'win32') {
     await t.rejects(p, {
       code: 1,
-      signal: null,
+      signal: undefined,
       stdout: '',
       stderr: '',
       extra: 'property',
@@ -337,7 +337,7 @@ t.test('signal death respects stdioString', async (t) => {
   if (process.platform === 'win32') {
     await t.rejects(p, {
       code: 1,
-      signal: null,
+      signal: undefined,
       stdout: Buffer.from(''),
       stderr: Buffer.from(''),
     })
@@ -362,7 +362,7 @@ t.test('signal death respects stdio as inherit', async (t) => {
   if (process.platform === 'win32') {
     await t.rejects(p, {
       code: 1,
-      signal: null,
+      signal: undefined,
       stdout: null,
       stderr: null,
     })
@@ -387,7 +387,7 @@ t.test('rejects when stdout errors', async (t) => {
   await t.rejects(p, {
     message: 'stdout err',
     code: null,
-    signal: null,
+    signal: undefined,
     stdout: '',
     stderr: '',
   })
@@ -404,7 +404,7 @@ t.test('rejects when stderr errors', async (t) => {
   await t.rejects(p, {
     message: 'stderr err',
     code: null,
-    signal: null,
+    signal: undefined,
     stdout: '',
     stderr: '',
   })

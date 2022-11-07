@@ -28,7 +28,7 @@ t.test('process.platform === win32', (t) => {
     const result = await promiseSpawn.open('https://google.com')
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
     })
 
     t.ok(proc.called)
@@ -42,7 +42,7 @@ t.test('process.platform === win32', (t) => {
     const result = await promiseSpawn.open('https://google.com', { shell: false })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
     })
 
     t.ok(proc.called)
@@ -56,7 +56,7 @@ t.test('process.platform === win32', (t) => {
     const result = await promiseSpawn.open('https://google.com', { command: 'browser' })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
     })
 
     t.ok(proc.called)
@@ -78,7 +78,7 @@ t.test('process.platform === darwin', (t) => {
     const result = await promiseSpawn.open('https://google.com')
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
     })
 
     t.ok(proc.called)
@@ -90,7 +90,7 @@ t.test('process.platform === darwin', (t) => {
     const result = await promiseSpawn.open('https://google.com', { shell: false })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
     })
 
     t.ok(proc.called)
@@ -102,7 +102,7 @@ t.test('process.platform === darwin', (t) => {
     const result = await promiseSpawn.open('https://google.com', { command: 'browser' })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
     })
 
     t.ok(proc.called)
@@ -124,7 +124,7 @@ t.test('process.platform === linux', (t) => {
     const result = await promiseSpawn.open('https://google.com')
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
     })
 
     t.ok(proc.called)
@@ -136,7 +136,7 @@ t.test('process.platform === linux', (t) => {
     const result = await promiseSpawn.open('https://google.com', { shell: false })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
     })
 
     t.ok(proc.called)
@@ -148,7 +148,7 @@ t.test('process.platform === linux', (t) => {
     const result = await promiseSpawn.open('https://google.com', { command: 'browser' })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
     })
 
     t.ok(proc.called)
@@ -174,7 +174,7 @@ t.test('process.platform === linux', (t) => {
     const result = await promiseSpawnMock.open('https://google.com')
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
     })
 
     t.ok(proc.called)
@@ -197,7 +197,7 @@ t.test('process.platform === freebsd', (t) => {
     const result = await promiseSpawn.open('https://google.com')
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
     })
 
     t.ok(proc.called)
@@ -209,7 +209,7 @@ t.test('process.platform === freebsd', (t) => {
     const result = await promiseSpawn.open('https://google.com', { shell: false })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
     })
 
     t.ok(proc.called)
@@ -221,7 +221,7 @@ t.test('process.platform === freebsd', (t) => {
     const result = await promiseSpawn.open('https://google.com', { command: 'browser' })
     t.hasStrict(result, {
       code: 0,
-      signal: null,
+      signal: undefined,
     })
 
     t.ok(proc.called)
