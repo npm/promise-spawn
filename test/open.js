@@ -180,6 +180,32 @@ t.test('process.platform === linux', (t) => {
     t.ok(proc.called)
   })
 
+  t.test('when os.release() includes microsoft treats as win32', async (t) => {
+    const comSpec = process.env.ComSpec
+    process.env.ComSpec = 'C:\\Windows\\System32\\cmd.exe'
+    t.teardown(() => {
+      process.env.ComSPec = comSpec
+    })
+
+    const promiseSpawnMock = t.mock('../lib/index.js', {
+      os: {
+        release: () => 'microsoft',
+      },
+    })
+
+    const proc = spawk.spawn('C:\\Windows\\System32\\cmd.exe',
+      ['/d', '/s', '/c', 'start "" https://google.com'],
+      { shell: false })
+
+    const result = await promiseSpawnMock.open('https://google.com')
+    t.hasStrict(result, {
+      code: 0,
+      signal: undefined,
+    })
+
+    t.ok(proc.called)
+  })
+
   t.end()
 })
 
