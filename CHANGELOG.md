@@ -1,5 +1,11 @@
 # Changelog
 
+## [6.0.2](https://github.com/npm/promise-spawn/compare/v6.0.1...v6.0.2) (2022-12-12)
+
+### Bug Fixes
+
+* [`38f272a`](https://github.com/npm/promise-spawn/commit/38f272ab994c8896e5c36efa96c5d1ec0ece3161) [#56](https://github.com/npm/promise-spawn/pull/56) correctly identify more wsl distributions, closes npm/cli#5903 (#56) (@nlf)
+
 ## [6.0.1](https://github.com/npm/promise-spawn/compare/v6.0.0...v6.0.1) (2022-11-01)
 
 ### Dependencies
