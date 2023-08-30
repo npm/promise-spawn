@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.0.0](https://github.com/npm/promise-spawn/compare/v6.0.2...v7.0.0) (2023-08-30)
+
+### ⚠️ BREAKING CHANGES
+
+* support for node 14 has been removed
+
+### Bug Fixes
+
+* [`bc0bb5f`](https://github.com/npm/promise-spawn/commit/bc0bb5f6183743b4253608275b1dbf7b9cc67f6c) [#71](https://github.com/npm/promise-spawn/pull/71) drop node14 support (@wraithgar)
+
+### Dependencies
+
+* [`e8606c7`](https://github.com/npm/promise-spawn/commit/e8606c7d0b068cd3d67b6f0bdc7605609a1dc321) [#71](https://github.com/npm/promise-spawn/pull/71) bump which from 3.0.1 to 4.0.0
+
 ## [6.0.2](https://github.com/npm/promise-spawn/compare/v6.0.1...v6.0.2) (2022-12-12)
 
 ### Bug Fixes
