@@ -47,7 +47,8 @@
       "18.0.0",
       "18.x"
     ],
-    "version": "4.18.0"
+    "version": "4.18.0",
+    "publish": true
   },
   "dependencies": {
     "which": "^4.0.0"
