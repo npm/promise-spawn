@@ -206,5 +206,42 @@ t.test('cmd', (t) => {
     t.ok(proc.called)
   })
 
+  t.test('which respects variant casing for provided env PATH/PATHEXT', async (t) => {
+    const PATH = 'C:\\Windows\\System32'
+    const PATHEXT = 'EXE'
+
+    const promiseSpawnMock = t.mock('../lib/index.js', {
+      which: {
+        sync: (key, opts) => {
+          t.equal(key, 'dir')
+          t.equal(opts.path, PATH)
+          t.equal(opts.pathext, PATHEXT)
+          return 'dir.exe'
+        },
+      },
+    })
+
+    const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', 'dir ^"with^ spaces^"'], {
+      shell: false,
+      windowsVerbatimArguments: true,
+    })
+
+    const result = await promiseSpawnMock('dir', ['with spaces'], {
+      env: {
+        pAtH: PATH,
+        pathEXT: PATHEXT,
+      },
+      shell: 'cmd.exe',
+    })
+    t.hasStrict(result, {
+      code: 0,
+      signal: undefined,
+      stdout: '',
+      stderr: '',
+    })
+
+    t.ok(proc.called)
+  })
+
   t.end()
 })
