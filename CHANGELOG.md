@@ -1,5 +1,22 @@
 # Changelog
 
+## [7.0.1](https://github.com/npm/promise-spawn/compare/v7.0.0...v7.0.1) (2023-12-21)
+
+### Bug Fixes
+
+* [`46fad5a`](https://github.com/npm/promise-spawn/commit/46fad5a1dec6fe7ad182373d9c0a651d18ff3231) [#98](https://github.com/npm/promise-spawn/pull/98) parse `options.env` more similarly to `process.env` (#98) (@thecodrr)
+
+### Chores
+
+* [`d3ba687`](https://github.com/npm/promise-spawn/commit/d3ba6875797c87ca4c044dbff9a8c5de849cbcca) [#97](https://github.com/npm/promise-spawn/pull/97) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`cf18492`](https://github.com/npm/promise-spawn/commit/cf1849244ba7e8f0b3e51752a86ddb097ddc8c74) [#97](https://github.com/npm/promise-spawn/pull/97) bump @npmcli/template-oss from 4.21.1 to 4.21.3 (@dependabot[bot])
+* [`c72524e`](https://github.com/npm/promise-spawn/commit/c72524e4c4f58965ee7b64ea5cc981a7fb649889) [#95](https://github.com/npm/promise-spawn/pull/95) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`8102197`](https://github.com/npm/promise-spawn/commit/810219764b55cd98f9e9f66f767e0a10afbd6b73) [#95](https://github.com/npm/promise-spawn/pull/95) bump @npmcli/template-oss from 4.19.0 to 4.21.1 (@dependabot[bot])
+* [`3d54f38`](https://github.com/npm/promise-spawn/commit/3d54f38ef9e21ab527adcf5e9db71a19ae6c9663) [#76](https://github.com/npm/promise-spawn/pull/76) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`ca63a18`](https://github.com/npm/promise-spawn/commit/ca63a18479877f4964706c0417a36deddfaf9ff4) [#76](https://github.com/npm/promise-spawn/pull/76) bump @npmcli/template-oss from 4.18.1 to 4.19.0 (@dependabot[bot])
+* [`e3e359f`](https://github.com/npm/promise-spawn/commit/e3e359f1362bc8e9b05b1623c656bb47df685ae2) [#74](https://github.com/npm/promise-spawn/pull/74) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`cc8e9c9`](https://github.com/npm/promise-spawn/commit/cc8e9c94d311723fbf3dbee7f2d7371f95578e25) [#74](https://github.com/npm/promise-spawn/pull/74) bump @npmcli/template-oss from 4.18.0 to 4.18.1 (@dependabot[bot])
+
 ## [7.0.0](https://github.com/npm/promise-spawn/compare/v6.0.2...v7.0.0) (2023-08-30)
 
 ### ⚠️ BREAKING CHANGES
