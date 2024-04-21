@@ -1,5 +1,16 @@
 # Changelog
 
+## [7.0.2](https://github.com/npm/promise-spawn/compare/v7.0.1...v7.0.2) (2024-04-21)
+
+### Bug Fixes
+
+* [`4912015`](https://github.com/npm/promise-spawn/commit/491201572c19d4f85c2461df9e05638f6d5397a2) [#102](https://github.com/npm/promise-spawn/pull/102) reject with error from parent context on close (#102) (@lukekarrys)
+
+### Chores
+
+* [`0aaf6f0`](https://github.com/npm/promise-spawn/commit/0aaf6f0f37e5b468277c8a4d8200b5ab18a4b387) [#104](https://github.com/npm/promise-spawn/pull/104) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`2855879`](https://github.com/npm/promise-spawn/commit/2855879bc22b3a1b6b25762bc4816799839e0a92) [#104](https://github.com/npm/promise-spawn/pull/104) bump @npmcli/template-oss from 4.21.3 to 4.21.4 (@dependabot[bot])
+
 ## [7.0.1](https://github.com/npm/promise-spawn/compare/v7.0.0...v7.0.1) (2023-12-21)
 
 ### Bug Fixes
