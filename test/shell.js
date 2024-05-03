@@ -120,7 +120,7 @@ t.test('cmd', (t) => {
   t.test('escapes when cmd is a .exe', async (t) => {
     const promiseSpawnMock = t.mock('../lib/index.js', {
       which: {
-        sync: (key, opts) => {
+        sync: (key) => {
           t.equal(key, 'dir')
           return 'dir.exe'
         },
@@ -146,7 +146,7 @@ t.test('cmd', (t) => {
   t.test('double escapes when cmd is a .cmd', async (t) => {
     const promiseSpawnMock = t.mock('../lib/index.js', {
       which: {
-        sync: (key, opts) => {
+        sync: (key) => {
           t.equal(key, 'dir')
           return 'dir.cmd'
         },
