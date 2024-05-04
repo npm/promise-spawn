@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.0.2](https://github.com/npm/promise-spawn/compare/v7.0.1...v7.0.2) (2024-05-04)
+
+### Bug Fixes
+
+* [`4912015`](https://github.com/npm/promise-spawn/commit/491201572c19d4f85c2461df9e05638f6d5397a2) [#102](https://github.com/npm/promise-spawn/pull/102) reject with error from parent context on close (#102) (@lukekarrys)
+
+### Chores
+
+* [`09872d7`](https://github.com/npm/promise-spawn/commit/09872d77491cf40c0b7702bf2acb426c8a55eeb7) [#105](https://github.com/npm/promise-spawn/pull/105) linting: no-unused-vars (@lukekarrys)
+* [`70f0eb7`](https://github.com/npm/promise-spawn/commit/70f0eb7329adf97fdacb4a01ee656dbde1653634) [#105](https://github.com/npm/promise-spawn/pull/105) bump @npmcli/template-oss to 4.22.0 (@lukekarrys)
+* [`82ae2a7`](https://github.com/npm/promise-spawn/commit/82ae2a704bc01758492cd791255d415c36e4cf0b) [#105](https://github.com/npm/promise-spawn/pull/105) postinstall for dependabot template-oss PR (@lukekarrys)
+* [`2855879`](https://github.com/npm/promise-spawn/commit/2855879bc22b3a1b6b25762bc4816799839e0a92) [#104](https://github.com/npm/promise-spawn/pull/104) bump @npmcli/template-oss from 4.21.3 to 4.21.4 (@dependabot[bot])
+
 ## [7.0.1](https://github.com/npm/promise-spawn/compare/v7.0.0...v7.0.1) (2023-12-21)
 
 ### Bug Fixes
