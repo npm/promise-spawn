@@ -739,3 +739,159 @@ t.test(
     }
   }
 )
+
+t.test('promiseSpawn handles shell option set to true', async (t) => {
+  const originalPlatform = process.platform
+  const originalComSpec = process.env.ComSpec
+
+  // Mock Unix-like environment
+  Object.defineProperty(process, 'platform', { value: 'linux' })
+  delete process.env.ComSpec
+
+  try {
+    const cmd = 'echo'
+    const args = ['Hello, World!']
+    const opts = { shell: true }
+
+    const expectedCommand = 'sh'
+    const expectedArgs = ['-c', "echo 'Hello, World!'"]
+    const expectedOptions = { shell: false }
+
+    const proc = spawk
+      .spawn(expectedCommand, expectedArgs, expectedOptions)
+      .stdout('Hello, World!\n')
+      .exit(0)
+
+    const result = await promiseSpawn(cmd, args, opts)
+
+    t.equal(result.stdout, 'Hello, World!', 'Command output is correct')
+    t.equal(result.code, 0, 'Exit code is 0')
+    t.ok(proc.called, 'The correct command was called')
+    t.same(proc.calledWith.command, expectedCommand, 'Correct shell was used')
+    t.same(proc.calledWith.args, expectedArgs, 'Correct arguments were used')
+    t.same(
+      proc.calledWith.options.shell,
+      false,
+      'Shell option is false in the final spawn call'
+    )
+  } finally {
+    // Restore original values
+    Object.defineProperty(process, 'platform', { value: originalPlatform })
+    process.env.ComSpec = originalComSpec
+  }
+})
+
+t.test('open function handles case when command is not set', async (t) => {
+  const originalPlatform = process.platform
+  const originalComSpec = process.env.ComSpec
+  const originalOpen = promiseSpawn.open
+
+  Object.defineProperty(process, 'platform', { value: 'win32' })
+  delete process.env.ComSpec
+
+  // Override the open function to force the command to be undefined
+  promiseSpawn.open = (args, opts = {}, extra = {}) => {
+    opts.command = undefined
+    return originalOpen(args, opts, extra)
+  }
+
+  try {
+    const url = 'https://example.com'
+
+    const proc = spawk
+      .spawn(() => true) // Match any spawn call
+      .exit(0)
+
+    await promiseSpawn.open(url)
+
+    t.ok(proc.called, 'A spawn call was made')
+
+    // Check that cmd.exe is used when command is not set
+    t.ok(
+      proc.calledWith.args.some((arg) => arg.includes('cmd.exe')),
+      'cmd.exe is used when command is not set'
+    )
+  } finally {
+    // Restore original values
+    Object.defineProperty(process, 'platform', { value: originalPlatform })
+    process.env.ComSpec = originalComSpec
+    promiseSpawn.open = originalOpen
+  }
+})
+
+t.test('uses default command when command is not set', async (t) => {
+  const originalPlatform = process.platform
+  const originalComSpec = process.env.ComSpec
+
+  // Mock Windows environment
+  Object.defineProperty(process, 'platform', { value: 'win32' })
+  process.env.ComSpec = 'C:\\WINDOWS\\system32\\cmd.exe'
+
+  try {
+    const proc = spawk.spawn(
+      'C:\\WINDOWS\\system32\\cmd.exe',
+      [
+        '/d',
+        '/s',
+        '/c',
+        'C:\\WINDOWS\\system32\\cmd.exe /c start "" https://npm.com',
+      ],
+      { command: undefined, shell: false, windowsVerbatimArguments: true }
+    )
+
+    const result = await promiseSpawn.open('https://npm.com', {
+      command: undefined,
+    })
+    t.hasStrict(result, {
+      code: 0,
+      signal: undefined,
+    })
+
+    t.ok(proc.called)
+    t.equal(
+      proc.calledWith.command,
+      'C:\\WINDOWS\\system32\\cmd.exe',
+      'Default command was used'
+    )
+  } finally {
+    // Restore original values
+    Object.defineProperty(process, 'platform', { value: originalPlatform })
+    process.env.ComSpec = originalComSpec
+  }
+})
+
+t.test('uses provided command when command is set', async (t) => {
+  const originalPlatform = process.platform
+  const originalComSpec = process.env.ComSpec
+
+  // Mock Windows environment
+  Object.defineProperty(process, 'platform', { value: 'win32' })
+  process.env.ComSpec = 'C:\\WINDOWS\\system32\\cmd.exe'
+
+  try {
+    const customCommand = 'custom-browser'
+    const proc = spawk.spawn(
+      'C:\\WINDOWS\\system32\\cmd.exe',
+      ['/d', '/s', '/c', `${customCommand} https://example.com`],
+      { command: customCommand, shell: false, windowsVerbatimArguments: true }
+    )
+
+    const result = await promiseSpawn.open('https://example.com', {
+      command: customCommand,
+    })
+    t.hasStrict(result, {
+      code: 0,
+      signal: undefined,
+    })
+
+    t.ok(proc.called)
+    t.ok(
+      proc.calledWith.args.some((arg) => arg.includes(customCommand)),
+      'Custom command was used'
+    )
+  } finally {
+    // Restore original values
+    Object.defineProperty(process, 'platform', { value: originalPlatform })
+    process.env.ComSpec = originalComSpec
+  }
+})
