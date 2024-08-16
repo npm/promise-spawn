@@ -30,7 +30,7 @@ t.test('process.platform === win32', (t) => {
         'C:\\Windows\\System32\\cmd.exe /c start "" https://google.com',
       ],
       { shell: false, windowsVerbatimArguments: true }
-     )
+    )
 
     const result = await promiseSpawn.open('https://google.com')
     t.hasStrict(result, {
@@ -201,47 +201,47 @@ t.test('process.platform === linux', (t) => {
   })
 
   t.test('uses cmd.exe with WSL for Microsoft', async (t) => {
-    const comSpec = process.env.ComSpec;
-    process.env.ComSpec = 'C:\\Windows\\System32\\cmd.exe';
+    const comSpec = process.env.ComSpec
+    process.env.ComSpec = 'C:\\Windows\\System32\\cmd.exe'
     t.teardown(() => {
-      process.env.ComSpec = comSpec;
-    });
-  
+      process.env.ComSpec = comSpec
+    })
+
     const promiseSpawnMock = t.mock('../lib/index.js', {
       os: {
         release: () => 'Microsoft',
       },
-    });
-  
+    })
+
     // Add logging
-    const originalSpawnWithShell = promiseSpawnMock.spawnWithShell;
+    const originalSpawnWithShell = promiseSpawnMock.spawnWithShell
     promiseSpawnMock.spawnWithShell = (command, args, options, extra) => {
       console.log('spawnWithShell called with:', {
         command,
         args,
         options,
         extra,
-      });
-      return originalSpawnWithShell(command, args, options, extra);
-    };
-  
+      })
+      return originalSpawnWithShell(command, args, options, extra)
+    }
+
     const proc = spawk.spawn(
       'sh',
       ['-c', 'C:\\Windows\\System32\\cmd.exe /c start "" https://google.com'],
       { shell: false }
-    );
-  
-    const result = await promiseSpawnMock.open('https://google.com');
-    console.log('open result:', result);
-  
+    )
+
+    const result = await promiseSpawnMock.open('https://google.com')
+    console.log('open result:', result)
+
     t.hasStrict(result, {
       code: 0,
       signal: undefined,
-    });
-  
-    t.ok(proc.called);
-  });
-  
+    })
+
+    t.ok(proc.called)
+  })
+
   t.test('when os.release() includes microsoft treats as win32', async (t) => {
     const comSpec = process.env.ComSpec
     process.env.ComSpec = 'C:\\Windows\\System32\\cmd.exe'
