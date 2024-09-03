@@ -1,5 +1,16 @@
 # Changelog
 
+## [8.0.0](https://github.com/npm/promise-spawn/compare/v7.0.2...v8.0.0) (2024-09-03)
+### ⚠️ BREAKING CHANGES
+* `@npmcli/promise-spawn` now supports node `^18.17.0 || >=20.5.0`
+### Bug Fixes
+* [`eeaf662`](https://github.com/npm/promise-spawn/commit/eeaf66200f401ff3c53d99c152c56b0e9b20fab2) [#122](https://github.com/npm/promise-spawn/pull/122) align to npm 10 node engine range (@hashtagchris)
+### Chores
+* [`392dc76`](https://github.com/npm/promise-spawn/commit/392dc767061f672fc44063227a9454511cffd2ec) [#122](https://github.com/npm/promise-spawn/pull/122) run template-oss-apply (@hashtagchris)
+* [`9ed7cbe`](https://github.com/npm/promise-spawn/commit/9ed7cbeac0089ae0a4386cb5a2bab83c733d46bd) [#120](https://github.com/npm/promise-spawn/pull/120) bump @npmcli/eslint-config from 4.0.5 to 5.0.0 (@dependabot[bot])
+* [`63cc0e6`](https://github.com/npm/promise-spawn/commit/63cc0e6636cd99699ec953b5943003ceed938f4e) [#121](https://github.com/npm/promise-spawn/pull/121) postinstall for dependabot template-oss PR (@hashtagchris)
+* [`a784586`](https://github.com/npm/promise-spawn/commit/a784586feba3d93f03abcc1c49563b0d546e6407) [#121](https://github.com/npm/promise-spawn/pull/121) bump @npmcli/template-oss from 4.23.1 to 4.23.3 (@dependabot[bot])
+
 ## [7.0.2](https://github.com/npm/promise-spawn/compare/v7.0.1...v7.0.2) (2024-05-04)
 
 ### Bug Fixes
