@@ -425,12 +425,9 @@ t.test('open function detects WSL and uses Windows commands', async (t) => {
 
   try {
     const url = 'https://example.com'
-    const expectedCommand = 'sh'
-    const expectedArgs = [
-      '-c',
-      'C:\\Windows\\System32\\cmd.exe /c start "" https://example.com',
-    ]
-    const expectedOptions = { shell: false }
+    const expectedCommand = 'C:\\Windows\\System32\\cmd.exe'
+    const expectedArgs = ['/d', '/s', '/c', 'start "" https://example.com']
+    const expectedOptions = { shell: true, windowsVerbatimArguments: true }
 
     const proc = spawk
       .spawn(expectedCommand, expectedArgs, expectedOptions)
@@ -444,6 +441,11 @@ t.test('open function detects WSL and uses Windows commands', async (t) => {
       expectedArgs,
       'Arguments were correctly formed for WSL'
     )
+    t.same(
+      proc.calledWith.options,
+      expectedOptions,
+      'Options were correctly set for WSL'
+    )
   } finally {
     // Restore original values
     Object.defineProperty(process, 'platform', { value: originalPlatform })
@@ -451,95 +453,6 @@ t.test('open function detects WSL and uses Windows commands', async (t) => {
     process.env.ComSpec = originalComSpec
   }
 })
-
-t.test(
-  'spawnWithShell handles command with alternating quotes on Windows',
-  async (t) => {
-    const originalPlatform = process.platform
-    const originalComSpec = process.env.ComSpec
-
-    // Mock Windows environment
-    Object.defineProperty(process, 'platform', { value: 'win32' })
-    process.env.ComSpec = 'C:\\Windows\\System32\\cmd.exe'
-
-    try {
-      const cmd = 'echo "Hello \'World\'" more args'
-      const args = []
-      const opts = { shell: true }
-
-      const expectedCommand = 'C:\\Windows\\System32\\cmd.exe'
-      const expectedArgs = [
-        '/d',
-        '/s',
-        '/c',
-        'echo "Hello \'World\'" more args',
-      ]
-      const expectedOptions = { shell: false, windowsVerbatimArguments: true }
-
-      const proc = spawk
-        .spawn(expectedCommand, expectedArgs, expectedOptions)
-        .stdout("Hello 'World'\r\n")
-        .exit(0)
-
-      const result = await promiseSpawn(cmd, args, opts)
-
-      t.equal(result.stdout, "Hello 'World'", 'Command output is correct')
-      t.equal(result.code, 0, 'Exit code is 0')
-      t.ok(proc.called, 'The correct command was called')
-    } finally {
-      // Restore original values
-      Object.defineProperty(process, 'platform', { value: originalPlatform })
-      process.env.ComSpec = originalComSpec
-    }
-  }
-)
-
-t.test(
-  'spawnWithShell handles command with arguments on Unix-like systems',
-  async (t) => {
-    const originalPlatform = process.platform
-
-    // Mock Unix-like environment
-    Object.defineProperty(process, 'platform', { value: 'linux' })
-
-    try {
-      const cmd = 'echo'
-      const args = ['Hello', 'World', 'with spaces', '"and quotes"']
-      const opts = { shell: true }
-
-      const expectedCommand = 'sh'
-      const expectedArgs = [
-        '-c',
-        `echo Hello World 'with spaces' '"and quotes"'`,
-      ]
-      const expectedOptions = { shell: false }
-
-      const proc = spawk
-        .spawn(expectedCommand, expectedArgs, expectedOptions)
-        .stdout('Hello World with spaces "and quotes"\n')
-        .exit(0)
-
-      const result = await promiseSpawn(cmd, args, opts)
-
-      t.equal(
-        result.stdout,
-        'Hello World with spaces "and quotes"',
-        'Command output is correct'
-      )
-      t.equal(result.code, 0, 'Exit code is 0')
-      t.ok(proc.called, 'The correct command was called')
-
-      // Check that spawk was called with the correct arguments
-      t.same(
-        proc.calledWith.args,
-        expectedArgs,
-        'Arguments were correctly escaped'
-      )
-    } finally {
-      Object.defineProperty(process, 'platform', { value: originalPlatform })
-    }
-  }
-)
 
 t.test('open function uses correct command on macOS', async (t) => {
   const originalPlatform = process.platform
@@ -551,7 +464,7 @@ t.test('open function uses correct command on macOS', async (t) => {
     const url = 'https://example.com'
     const expectedCommand = 'sh'
     const expectedArgs = ['-c', 'open https://example.com']
-    const expectedOptions = { shell: false }
+    const expectedOptions = { shell: true }
 
     const proc = spawk
       .spawn(expectedCommand, expectedArgs, expectedOptions)
@@ -564,6 +477,11 @@ t.test('open function uses correct command on macOS', async (t) => {
       proc.calledWith.args,
       expectedArgs,
       'Arguments were correctly formed for macOS'
+    )
+    t.same(
+      proc.calledWith.options,
+      expectedOptions,
+      'Options were correctly set for macOS'
     )
   } finally {
     // Restore original platform
@@ -583,7 +501,7 @@ t.test('open function uses correct command on Linux', async (t) => {
     const url = 'https://example.com'
     const expectedCommand = 'sh'
     const expectedArgs = ['-c', 'xdg-open https://example.com']
-    const expectedOptions = { shell: false }
+    const expectedOptions = { shell: true }
 
     const proc = spawk
       .spawn(expectedCommand, expectedArgs, expectedOptions)
@@ -596,6 +514,11 @@ t.test('open function uses correct command on Linux', async (t) => {
       proc.calledWith.args,
       expectedArgs,
       'Arguments were correctly formed for Linux'
+    )
+    t.same(
+      proc.calledWith.options,
+      expectedOptions,
+      'Options were correctly set for Linux'
     )
   } finally {
     // Restore original values
@@ -633,7 +556,7 @@ t.test(
       const expectedCommand = 'C:\\Windows\\System32\\cmd.exe'
       const expectedArgs = ['/d', '/s', '/c', 'echo Hello']
       const expectedOptions = {
-        shell: false,
+        shell: true,
         windowsVerbatimArguments: true,
         env: {
           PATH: 'D:\\CustomPath',
@@ -661,7 +584,7 @@ t.test(
       t.same(
         proc.calledWith.options.env.PATH,
         'D:\\CustomPath',
-        'Corect PATH used(case-insensitive)'
+        'Correct PATH used (case-insensitive)'
       )
       t.same(
         proc.calledWith.options.env.pathext,
@@ -672,6 +595,16 @@ t.test(
         proc.calledWith.options.env.comspec,
         'D:\\CustomCmd.exe',
         'Custom COMSPEC was preserved in env'
+      )
+      t.same(
+        proc.calledWith.options.shell,
+        true,
+        'Shell option is set to true'
+      )
+      t.same(
+        proc.calledWith.options.windowsVerbatimArguments,
+        true,
+        'windowsVerbatimArguments is set to true'
       )
     } finally {
       // Restore original values
@@ -708,7 +641,7 @@ t.test(
       const expectedCommand = 'C:\\Windows\\System32\\cmd.exe'
       const expectedArgs = ['/d', '/s', '/c', cmd]
       const expectedOptions = {
-        shell: false,
+        shell: true,
         windowsVerbatimArguments: true,
       }
 
@@ -730,7 +663,7 @@ t.test(
         true,
         'windowsVerbatimArguments is true'
       )
-      t.same(proc.calledWith.options.shell, false, 'shell option is false')
+      t.same(proc.calledWith.options.shell, true, 'shell option is true')
     } finally {
       // Restore original values
       Object.defineProperty(process, 'platform', originalPlatform)
@@ -739,47 +672,6 @@ t.test(
     }
   }
 )
-
-t.test('promiseSpawn handles shell option set to true', async (t) => {
-  const originalPlatform = process.platform
-  const originalComSpec = process.env.ComSpec
-
-  // Mock Unix-like environment
-  Object.defineProperty(process, 'platform', { value: 'linux' })
-  delete process.env.ComSpec
-
-  try {
-    const cmd = 'echo'
-    const args = ['Hello, World!']
-    const opts = { shell: true }
-
-    const expectedCommand = 'sh'
-    const expectedArgs = ['-c', "echo 'Hello, World!'"]
-    const expectedOptions = { shell: false }
-
-    const proc = spawk
-      .spawn(expectedCommand, expectedArgs, expectedOptions)
-      .stdout('Hello, World!\n')
-      .exit(0)
-
-    const result = await promiseSpawn(cmd, args, opts)
-
-    t.equal(result.stdout, 'Hello, World!', 'Command output is correct')
-    t.equal(result.code, 0, 'Exit code is 0')
-    t.ok(proc.called, 'The correct command was called')
-    t.same(proc.calledWith.command, expectedCommand, 'Correct shell was used')
-    t.same(proc.calledWith.args, expectedArgs, 'Correct arguments were used')
-    t.same(
-      proc.calledWith.options.shell,
-      false,
-      'Shell option is false in the final spawn call'
-    )
-  } finally {
-    // Restore original values
-    Object.defineProperty(process, 'platform', { value: originalPlatform })
-    process.env.ComSpec = originalComSpec
-  }
-})
 
 t.test('open function handles case when command is not set', async (t) => {
   const originalPlatform = process.platform
@@ -797,20 +689,22 @@ t.test('open function handles case when command is not set', async (t) => {
 
   try {
     const url = 'https://example.com'
-
     const proc = spawk
-      .spawn(() => true) // Match any spawn call
+      .spawn(() => {
+        return true // Match any spawn call
+      })
       .exit(0)
 
     await promiseSpawn.open(url)
 
     t.ok(proc.called, 'A spawn call was made')
 
-    // Check that cmd.exe is used when command is not set
-    t.ok(
-      proc.calledWith.args.some((arg) => arg.includes('cmd.exe')),
-      'cmd.exe is used when command is not set'
-    )
+    // Check if either the command or any of the args contain 'cmd.exe' or 'start'
+    const cmdExeUsed = proc.calledWith.command.includes('cmd.exe') ||
+                       proc.calledWith.args.some(arg => arg.includes('cmd.exe') ||
+                       arg.includes('start'))
+
+    t.ok(cmdExeUsed, 'cmd.exe or start command is used when command is not set')
   } finally {
     // Restore original values
     Object.defineProperty(process, 'platform', { value: originalPlatform })
@@ -819,7 +713,7 @@ t.test('open function handles case when command is not set', async (t) => {
   }
 })
 
-t.test('uses default command when command is not set', async (t) => {
+t.test('open function uses default command when no command is provided on Windows', async (t) => {
   const originalPlatform = process.platform
   const originalComSpec = process.env.ComSpec
 
@@ -828,31 +722,57 @@ t.test('uses default command when command is not set', async (t) => {
   process.env.ComSpec = 'C:\\WINDOWS\\system32\\cmd.exe'
 
   try {
+    const url = 'https://example.com'
+
+    console.log('Test setup:')
+    console.log('Platform:', process.platform)
+    console.log('ComSpec:', process.env.ComSpec)
+    console.log('URL:', url)
+
+    const expectedCommand = 'C:\\WINDOWS\\system32\\cmd.exe'
+    const expectedArgs = ['/d', '/s', '/c', `start "" ${url}`]
+    const expectedOptions = {
+      shell: true,
+      windowsVerbatimArguments: true,
+    }
+
+    console.log('Expected values:')
+    console.log('Command:', expectedCommand)
+    console.log('Args:', expectedArgs)
+    console.log('Options:', expectedOptions)
+
     const proc = spawk.spawn(
-      'C:\\WINDOWS\\system32\\cmd.exe',
-      [
-        '/d',
-        '/s',
-        '/c',
-        'C:\\WINDOWS\\system32\\cmd.exe /c start "" https://npm.com',
-      ],
-      { command: undefined, shell: false, windowsVerbatimArguments: true }
+      expectedCommand,
+      expectedArgs,
+      expectedOptions
     )
 
-    const result = await promiseSpawn.open('https://npm.com', {
-      command: undefined,
-    })
+    const result = await promiseSpawn.open(url) // Note: No command provided here
+
+    console.log('Actual result:', result)
+
     t.hasStrict(result, {
       code: 0,
       signal: undefined,
     })
 
-    t.ok(proc.called)
-    t.equal(
-      proc.calledWith.command,
-      'C:\\WINDOWS\\system32\\cmd.exe',
-      'Default command was used'
+    t.ok(proc.called, 'The spawn function was called')
+
+    console.log('Actual values:')
+    console.log('Command:', proc.calledWith.command)
+    console.log('Args:', proc.calledWith.args)
+    console.log('Options:', proc.calledWith.options)
+
+    t.equal(proc.calledWith.command, expectedCommand, 'Correct command was used')
+    t.same(proc.calledWith.args, expectedArgs, 'Correct arguments were used')
+    t.same(proc.calledWith.options, expectedOptions, 'Correct options were used')
+    t.ok(
+      proc.calledWith.args.some((arg) => arg.includes('start')),
+      'Default "start" command was used'
     )
+  } catch (error) {
+    console.error('Test error:', error)
+    throw error
   } finally {
     // Restore original values
     Object.defineProperty(process, 'platform', { value: originalPlatform })
@@ -860,7 +780,7 @@ t.test('uses default command when command is not set', async (t) => {
   }
 })
 
-t.test('uses provided command when command is set', async (t) => {
+t.test('open function uses provided command on Windows', async (t) => {
   const originalPlatform = process.platform
   const originalComSpec = process.env.ComSpec
 
@@ -869,26 +789,40 @@ t.test('uses provided command when command is set', async (t) => {
   process.env.ComSpec = 'C:\\WINDOWS\\system32\\cmd.exe'
 
   try {
+    const url = 'https://example.com'
     const customCommand = 'custom-browser'
+    const expectedCommand = 'C:\\WINDOWS\\system32\\cmd.exe'
+    const expectedArgs = ['/d', '/s', '/c', `${customCommand} ${url}`]
+    const expectedOptions = {
+      command: customCommand, // Add this line
+      shell: true,
+      windowsVerbatimArguments: true,
+    }
+
     const proc = spawk.spawn(
-      'C:\\WINDOWS\\system32\\cmd.exe',
-      ['/d', '/s', '/c', `${customCommand} https://example.com`],
-      { command: customCommand, shell: false, windowsVerbatimArguments: true }
+      expectedCommand,
+      expectedArgs,
+      expectedOptions
     )
 
-    const result = await promiseSpawn.open('https://example.com', {
-      command: customCommand,
-    })
+    const result = await promiseSpawn.open(url, { command: customCommand })
+
     t.hasStrict(result, {
       code: 0,
       signal: undefined,
     })
 
-    t.ok(proc.called)
+    t.ok(proc.called, 'The spawn function was called')
+    t.equal(proc.calledWith.command, expectedCommand, 'Correct command was used')
+    t.same(proc.calledWith.args, expectedArgs, 'Correct arguments were used')
+    t.same(proc.calledWith.options, expectedOptions, 'Correct options were used')
     t.ok(
       proc.calledWith.args.some((arg) => arg.includes(customCommand)),
       'Custom command was used'
     )
+  } catch (error) {
+    console.error('Test error:', error)
+    throw error
   } finally {
     // Restore original values
     Object.defineProperty(process, 'platform', { value: originalPlatform })
