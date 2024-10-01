@@ -46,6 +46,6 @@
     "publish": true
   },
   "dependencies": {
-    "which": "^4.0.0"
+    "which": "^5.0.0"
   }
 }
