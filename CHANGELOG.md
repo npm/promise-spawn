@@ -1,5 +1,9 @@
 # Changelog
 
+## [8.0.1](https://github.com/npm/promise-spawn/compare/v8.0.0...v8.0.1) (2024-10-02)
+### Dependencies
+* [`606edd3`](https://github.com/npm/promise-spawn/commit/606edd301ac120f4bc4e710846b2581659f12eaf) [#124](https://github.com/npm/promise-spawn/pull/124) bump `which@5.0.0`
+
 ## [8.0.0](https://github.com/npm/promise-spawn/compare/v7.0.2...v8.0.0) (2024-09-03)
 ### ⚠️ BREAKING CHANGES
 * `@npmcli/promise-spawn` now supports node `^18.17.0 || >=20.5.0`
