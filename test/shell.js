@@ -12,7 +12,7 @@ t.afterEach(() => {
 
 t.test('sh', (t) => {
   t.test('runs in shell', async (t) => {
-    const proc = spawk.spawn('sh', ['-c', 'echo hello'], { shell: false })
+    const proc = spawk.spawn('sh', ['-c', 'echo hello'], { shell: true })
       .stdout(Buffer.from('hello\n'))
 
     const result = await promiseSpawn('echo', ['hello'], { shell: 'sh' })
@@ -27,7 +27,7 @@ t.test('sh', (t) => {
   })
 
   t.test('escapes arguments', async (t) => {
-    const proc = spawk.spawn('sh', ['-c', 'echo \'hello world\''], { shell: false })
+    const proc = spawk.spawn('sh', ['-c', 'echo \'hello world\''], { shell: true })
       .stdout(Buffer.from('hello\n'))
 
     const result = await promiseSpawn('echo', ['hello world'], { shell: 'sh' })
@@ -47,7 +47,7 @@ t.test('sh', (t) => {
 t.test('cmd', (t) => {
   t.test('runs in shell', async (t) => {
     const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', 'echo hello'], {
-      shell: false,
+      shell: true,
       windowsVerbatimArguments: true,
     })
       .stdout(Buffer.from('hello\n'))
@@ -65,7 +65,7 @@ t.test('cmd', (t) => {
 
   t.test('works when initial cmd is wrapped in quotes', async (t) => {
     const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', '"echo" hello'], {
-      shell: false,
+      shell: true,
       windowsVerbatimArguments: true,
     })
       .stdout(Buffer.from('hello\n'))
@@ -83,7 +83,7 @@ t.test('cmd', (t) => {
 
   t.test('works when initial cmd has a space and is wrapped in quotes', async (t) => {
     const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', '"two words" hello'], {
-      shell: false,
+      shell: true,
       windowsVerbatimArguments: true,
     })
       .stdout(Buffer.from('hello\n'))
@@ -101,7 +101,7 @@ t.test('cmd', (t) => {
 
   t.test('works when initial cmd is more than one command', async (t) => {
     const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', 'one two three hello'], {
-      shell: false,
+      shell: true,
       windowsVerbatimArguments: true,
     })
       .stdout(Buffer.from('hello\n'))
@@ -128,7 +128,7 @@ t.test('cmd', (t) => {
     })
 
     const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', 'dir ^"with^ spaces^"'], {
-      shell: false,
+      shell: true,
       windowsVerbatimArguments: true,
     })
 
@@ -154,7 +154,7 @@ t.test('cmd', (t) => {
     })
 
     const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', 'dir ^^^"with^^^ spaces^^^"'], {
-      shell: false,
+      shell: true,
       windowsVerbatimArguments: true,
     })
 
@@ -185,7 +185,7 @@ t.test('cmd', (t) => {
     })
 
     const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', 'dir ^"with^ spaces^"'], {
-      shell: false,
+      shell: true,
       windowsVerbatimArguments: true,
     })
 
@@ -222,7 +222,7 @@ t.test('cmd', (t) => {
     })
 
     const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', 'dir ^"with^ spaces^"'], {
-      shell: false,
+      shell: true,
       windowsVerbatimArguments: true,
     })
 
