@@ -155,21 +155,13 @@ t.test('process.platform === linux', (t) => {
   })
 
   t.test('when os.release() includes Microsoft treats as win32', async (t) => {
-    const comSpec = process.env.ComSpec
-    process.env.ComSpec = 'C:\\Windows\\System32\\cmd.exe'
-    t.teardown(() => {
-      process.env.ComSPec = comSpec
-    })
-
     const promiseSpawnMock = t.mock('../lib/index.js', {
       os: {
         release: () => 'Microsoft',
       },
     })
 
-    const proc = spawk.spawn('C:\\Windows\\System32\\cmd.exe',
-      ['/d', '/s', '/c', 'start "" https://google.com'],
-      { shell: false })
+    const proc = spawk.spawn('sh', ['-c', 'sensible-browser https://google.com'], { shell: false })
 
     const result = await promiseSpawnMock.open('https://google.com')
     t.hasStrict(result, {
@@ -181,21 +173,13 @@ t.test('process.platform === linux', (t) => {
   })
 
   t.test('when os.release() includes microsoft treats as win32', async (t) => {
-    const comSpec = process.env.ComSpec
-    process.env.ComSpec = 'C:\\Windows\\System32\\cmd.exe'
-    t.teardown(() => {
-      process.env.ComSPec = comSpec
-    })
-
     const promiseSpawnMock = t.mock('../lib/index.js', {
       os: {
         release: () => 'microsoft',
       },
     })
 
-    const proc = spawk.spawn('C:\\Windows\\System32\\cmd.exe',
-      ['/d', '/s', '/c', 'start "" https://google.com'],
-      { shell: false })
+    const proc = spawk.spawn('sh', ['-c', 'sensible-browser https://google.com'], { shell: false })
 
     const result = await promiseSpawnMock.open('https://google.com')
     t.hasStrict(result, {
