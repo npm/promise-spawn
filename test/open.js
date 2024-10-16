@@ -2,6 +2,7 @@
 
 const spawk = require('spawk')
 const t = require('tap')
+const os = require('os')
 
 const promiseSpawn = require('../lib/index.js')
 
@@ -9,6 +10,8 @@ spawk.preventUnmatched()
 t.afterEach(() => {
   spawk.clean()
 })
+
+const isWSL = process.platform === 'linux' && os.release().toLowerCase().includes('microsoft')
 
 t.test('process.platform === win32', (t) => {
   const comSpec = process.env.ComSpec
@@ -118,7 +121,8 @@ t.test('process.platform === linux', (t) => {
     Object.defineProperty(process, 'platform', platformDesc)
   })
 
-  t.test('uses xdg-open in a shell', async (t) => {
+  // xdg-open is not installed in WSL by default
+  t.test('uses xdg-open in a shell', { skip: isWSL }, async (t) => {
     const proc = spawk.spawn('sh', ['-c', 'xdg-open https://google.com'], { shell: false })
 
     const result = await promiseSpawn.open('https://google.com')
@@ -130,7 +134,8 @@ t.test('process.platform === linux', (t) => {
     t.ok(proc.called)
   })
 
-  t.test('ignores shell = false', async (t) => {
+  // xdg-open is not installed in WSL by default
+  t.test('ignores shell = false', { skip: isWSL }, async (t) => {
     const proc = spawk.spawn('sh', ['-c', 'xdg-open https://google.com'], { shell: false })
 
     const result = await promiseSpawn.open('https://google.com', { shell: false })
