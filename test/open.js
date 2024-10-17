@@ -2,7 +2,7 @@
 
 const spawk = require('spawk')
 const t = require('tap')
-const os = require('os')
+const os = require('node:os')
 
 const promiseSpawn = require('../lib/index.js')
 
