@@ -1,5 +1,11 @@
 # Changelog
 
+## [8.0.2](https://github.com/npm/promise-spawn/compare/v8.0.1...v8.0.2) (2024-10-18)
+### Bug Fixes
+* [`5ecf301`](https://github.com/npm/promise-spawn/commit/5ecf3016c8252a35f7b84fe7e63ca1f97e3ce6d7) [#128](https://github.com/npm/promise-spawn/pull/128) open URL in browser on WSL (#128) (@mbtools, @wraithgar)
+### Chores
+* [`ef4ba09`](https://github.com/npm/promise-spawn/commit/ef4ba0994104927011160f1ef4e7256335e16544) [#127](https://github.com/npm/promise-spawn/pull/127) bump @npmcli/template-oss from 4.23.3 to 4.23.4 (#127) (@dependabot[bot], @npm-cli-bot)
+
 ## [8.0.1](https://github.com/npm/promise-spawn/compare/v8.0.0...v8.0.1) (2024-10-02)
 ### Dependencies
 * [`606edd3`](https://github.com/npm/promise-spawn/commit/606edd301ac120f4bc4e710846b2581659f12eaf) [#124](https://github.com/npm/promise-spawn/pull/124) bump `which@5.0.0`
