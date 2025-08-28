@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.0.3](https://github.com/npm/promise-spawn/compare/v8.0.2...v8.0.3) (2025-08-28)
+### Bug Fixes
+* [`c12e015`](https://github.com/npm/promise-spawn/commit/c12e015b87ea8027185bfdffd3d374854496401c) [#137](https://github.com/npm/promise-spawn/pull/137) fallback for missing process.env.ComSpec on Windows (#137) (@SongMinQQ)
+### Chores
+* [`ddef6b2`](https://github.com/npm/promise-spawn/commit/ddef6b2aea4c445ade1b5f76495d17fb39a6c4fe) [#133](https://github.com/npm/promise-spawn/pull/133) postinstall workflow updates (#133) (@owlstronaut)
+* [`32390d6`](https://github.com/npm/promise-spawn/commit/32390d62af0be68e2d7ad37da753fb00007fd4bd) [#136](https://github.com/npm/promise-spawn/pull/136) bump @npmcli/template-oss from 4.24.4 to 4.25.0 (#136) (@dependabot[bot], @npm-cli-bot)
+
 ## [8.0.2](https://github.com/npm/promise-spawn/compare/v8.0.1...v8.0.2) (2024-10-18)
 ### Bug Fixes
 * [`5ecf301`](https://github.com/npm/promise-spawn/commit/5ecf3016c8252a35f7b84fe7e63ca1f97e3ce6d7) [#128](https://github.com/npm/promise-spawn/pull/128) open URL in browser on WSL (#128) (@mbtools, @wraithgar)
