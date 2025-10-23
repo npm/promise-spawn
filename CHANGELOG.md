@@ -1,5 +1,15 @@
 # Changelog
 
+## [9.0.0](https://github.com/npm/promise-spawn/compare/v8.0.3...v9.0.0) (2025-10-23)
+### ⚠️ BREAKING CHANGES
+* `@npmcli/promise-spawn` now supports node `^20.17.0 || >=22.9.0`
+### Bug Fixes
+* [`83b6f8e`](https://github.com/npm/promise-spawn/commit/83b6f8e2091bd23fb01f685f31382e7cb9338c64) [#144](https://github.com/npm/promise-spawn/pull/144) align to npm 11 node engine range (@owlstronaut)
+### Chores
+* [`cb2d875`](https://github.com/npm/promise-spawn/commit/cb2d875635abb407069fa703bdb81e3bb3e1c748) [#144](https://github.com/npm/promise-spawn/pull/144) remove unneeded eslint ignore (@owlstronaut)
+* [`17d2584`](https://github.com/npm/promise-spawn/commit/17d25844a3ee5581598bf1fa5ef8141b70d0e9a2) [#144](https://github.com/npm/promise-spawn/pull/144) template-oss-apply (@owlstronaut)
+* [`078277b`](https://github.com/npm/promise-spawn/commit/078277be0eeb0389d14c7da7d55abe94cb7c0249) [#143](https://github.com/npm/promise-spawn/pull/143) bump @npmcli/template-oss from 4.27.0 to 4.27.1 (#143) (@dependabot[bot], @npm-cli-bot)
+
 ## [8.0.3](https://github.com/npm/promise-spawn/compare/v8.0.2...v8.0.3) (2025-08-28)
 ### Bug Fixes
 * [`c12e015`](https://github.com/npm/promise-spawn/commit/c12e015b87ea8027185bfdffd3d374854496401c) [#137](https://github.com/npm/promise-spawn/pull/137) fallback for missing process.env.ComSpec on Windows (#137) (@SongMinQQ)
