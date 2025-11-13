@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.0.1](https://github.com/npm/promise-spawn/compare/v9.0.0...v9.0.1) (2025-11-13)
+### Dependencies
+* [`8118181`](https://github.com/npm/promise-spawn/commit/8118181eee920f51786b3338f25e06beb4acfd58) [#148](https://github.com/npm/promise-spawn/pull/148) bump which from 5.0.0 to 6.0.0 (#148) (@dependabot[bot])
+### Chores
+* [`9a474fe`](https://github.com/npm/promise-spawn/commit/9a474fee2f65e7bddcce1c5640d70d54beb22067) [#146](https://github.com/npm/promise-spawn/pull/146) bump @npmcli/eslint-config from 5.1.0 to 6.0.0 (#146) (@dependabot[bot])
+* [`70cf3ad`](https://github.com/npm/promise-spawn/commit/70cf3add3237e594656d5905425506f68b2a67a5) [#147](https://github.com/npm/promise-spawn/pull/147) bump @npmcli/template-oss from 4.27.1 to 4.28.0 (#147) (@dependabot[bot], @npm-cli-bot)
+
 ## [9.0.0](https://github.com/npm/promise-spawn/compare/v8.0.3...v9.0.0) (2025-10-23)
 ### ⚠️ BREAKING CHANGES
 * `@npmcli/promise-spawn` now supports node `^20.17.0 || >=22.9.0`
