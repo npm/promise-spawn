@@ -52,8 +52,7 @@ spawned process.
 - `stdioString` Boolean, default `true`.  Return stdout/stderr output as
   strings rather than buffers.
 - `cwd` String, default `process.cwd()`.  Current working directory for
-  running the script.  Also the argument to `infer-owner` to determine
-  effective uid/gid when run as root on Unix systems.
+  running the script.
 - `shell` Boolean or String. If false, no shell is used during spawn. If true,
   the system default shell is used. If a String, that specific shell is used.
   When a shell is used, the given command runs from within that shell by
