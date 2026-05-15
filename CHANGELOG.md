@@ -1,5 +1,21 @@
 # Changelog
 
+## [10.0.0](https://github.com/npm/promise-spawn/compare/v9.0.1...v10.0.0) (2026-05-15)
+### ⚠️ BREAKING CHANGES
+* `@npmcli/promise-spawn` now supports node `^22.22.2 || ^24.15.0 || >=26.0.0`
+* template-oss-apply
+### Features
+* [`e2aa04f`](https://github.com/npm/promise-spawn/commit/e2aa04f5cf47bca3e88cf9b5bed964fcf1ae51a1) [#160](https://github.com/npm/promise-spawn/pull/160) bump to new node engine range (@owlstronaut)
+* [`870e1f5`](https://github.com/npm/promise-spawn/commit/870e1f546249e6632b54476e2f6cdbc5637d127e) [#160](https://github.com/npm/promise-spawn/pull/160) template-oss-apply (@owlstronaut)
+### Documentation
+* [`715b891`](https://github.com/npm/promise-spawn/commit/715b8919831c4012b03956476a54088282f43d69) [#153](https://github.com/npm/promise-spawn/pull/153) remove mention of infer-owner in README (#153) (@mohd-akram)
+### Dependencies
+* [`2740e93`](https://github.com/npm/promise-spawn/commit/2740e93260c0c8bd78ce05c094664c422204ec5b) [#160](https://github.com/npm/promise-spawn/pull/160) `which@7.0.0`
+### Chores
+* [`0186f18`](https://github.com/npm/promise-spawn/commit/0186f1854192bd9e34be739b90d9453a631e1c21) [#160](https://github.com/npm/promise-spawn/pull/160) template-oss-apply (@owlstronaut)
+* [`55dcf50`](https://github.com/npm/promise-spawn/commit/55dcf505bddc09f3d4af6f5bbd3724a94e733382) [#160](https://github.com/npm/promise-spawn/pull/160) bumping @npmcli/template-oss from 4.30.0 to 5.1.0 (@owlstronaut)
+* [`1b5375f`](https://github.com/npm/promise-spawn/commit/1b5375fe307a8b62e30a2787f039c9dd735c9303) [#156](https://github.com/npm/promise-spawn/pull/156) bump @npmcli/template-oss from 4.29.0 to 4.30.0 (#156) (@dependabot[bot], @npm-cli-bot)
+
 ## [9.0.1](https://github.com/npm/promise-spawn/compare/v9.0.0...v9.0.1) (2025-11-13)
 ### Dependencies
 * [`8118181`](https://github.com/npm/promise-spawn/commit/8118181eee920f51786b3338f25e06beb4acfd58) [#148](https://github.com/npm/promise-spawn/pull/148) bump which from 5.0.0 to 6.0.0 (#148) (@dependabot[bot])
