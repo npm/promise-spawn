@@ -4,7 +4,11 @@ const spawk = require('spawk')
 const t = require('tap')
 const os = require('node:os')
 
-const promiseSpawn = require('../lib/index.js')
+// Stub which.sync so shell resolution returns the bare name, keeping the spawn()
+// assertions stable (trusted-PATH resolution is tested in test/shell.js).
+const promiseSpawn = t.mock('../lib/index.js', {
+  which: { sync: (cmd) => cmd },
+})
 
 spawk.preventUnmatched()
 t.afterEach(() => {
@@ -164,6 +168,7 @@ t.test('process.platform === linux', (t) => {
       os: {
         release: () => 'Microsoft',
       },
+      which: { sync: (cmd) => cmd },
     })
     const browser = process.env.BROWSER
     process.env.BROWSER = '/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe'
@@ -188,6 +193,7 @@ t.test('process.platform === linux', (t) => {
       os: {
         release: () => 'microsoft',
       },
+      which: { sync: (cmd) => cmd },
     })
     const browser = process.env.BROWSER
     process.env.BROWSER = '/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe'
