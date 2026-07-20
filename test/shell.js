@@ -7,10 +7,19 @@ const t = require('tap')
 const actualPromiseSpawn = require('../lib/index.js')
 const actualPlatform = process.platform
 
+const pathMock = {
+  ...path,
+  posix: {
+    ...path.posix,
+    isAbsolute: () => true,
+  },
+}
+
 // Keep ordinary spawn assertions stable across platforms; shell resolution
 // behaviour has dedicated tests below.
 const promiseSpawn = t.mock('../lib/index.js', {
-  which: { sync: (cmd) => path.win32.basename(cmd) },
+  path: pathMock,
+  which: { sync: (cmd) => cmd },
 })
 
 spawk.preventUnmatched()
@@ -39,6 +48,14 @@ const mockEnv = (t, key, value) => {
     } else {
       process.env[key] = original
     }
+  })
+}
+
+const mockCwd = (t, cwd) => {
+  const original = process.cwd
+  process.cwd = () => cwd
+  t.teardown(() => {
+    process.cwd = original
   })
 }
 
@@ -107,6 +124,33 @@ t.test('shell interpreter resolution', (t) => {
     t.ok(proc.called, 'spawned the resolved absolute shell path')
   })
 
+  t.test('anchors a relative shell result to the lookup cwd', async (t) => {
+    mockPlatform(t, 'linux')
+    mockEnv(t, 'PATH', '.')
+
+    const promiseSpawnMock = t.mock('../lib/index.js', {
+      which: {
+        sync: () => 'sh',
+      },
+    })
+    mockCwd(t, '/lookup')
+    const env = { PATH: '/execution/evil' }
+    const proc = spawk.spawn('/lookup/sh', ['-c', 'echo hello'], {
+      cwd: '/execution',
+      env,
+      shell: false,
+    })
+      .stdout(Buffer.from('hello\n'))
+
+    await promiseSpawnMock('echo', ['hello'], {
+      cwd: '/execution',
+      env,
+      shell: 'sh',
+    })
+
+    t.ok(proc.called, 'spawned the shell selected from the lookup cwd')
+  })
+
   t.test('rejects when a bare shell is not on the trusted PATH', async (t) => {
     mockPlatform(t, 'linux')
     const promiseSpawnMock = t.mock('../lib/index.js', {
@@ -115,10 +159,29 @@ t.test('shell interpreter resolution', (t) => {
       },
     })
 
-    await t.rejects(promiseSpawnMock('echo', ['hello'], { shell: 'missing-shell' }), {
+    const promise = promiseSpawnMock('echo', ['hello'], {
+      shell: 'missing-shell',
+      stdioString: false,
+    }, {
+      extra: 'property',
+    })
+    const exit = new Promise(resolve => {
+      promise.process.once('exit', (code, signal) => resolve({ code, signal }))
+    })
+
+    t.equal(promise.stdin, null)
+    t.equal(promise.process.stdin, null)
+    t.equal(promise.process.kill(), false)
+    await t.rejects(promise, {
       code: 'ENOENT',
       message: 'not found: missing-shell',
+      cmd: 'echo',
+      args: ['hello'],
+      stdout: Buffer.from(''),
+      stderr: Buffer.from(''),
+      extra: 'property',
     })
+    t.same(await exit, { code: null, signal: null })
   })
 
   t.test('preserves an explicit relative shell path', async (t) => {
@@ -313,6 +376,7 @@ t.test('cmd', (t) => {
 
   t.test('falls back to the bare initial cmd when it cannot be resolved', async (t) => {
     const promiseSpawnMock = t.mock('../lib/index.js', {
+      path: pathMock,
       which: {
         sync: (key) => {
           if (key === 'cmd.exe') {
@@ -396,6 +460,7 @@ t.test('cmd', (t) => {
 
   t.test('escapes when cmd is a .exe', async (t) => {
     const promiseSpawnMock = t.mock('../lib/index.js', {
+      path: pathMock,
       which: {
         sync: (key) => {
           if (key === 'cmd.exe') {
@@ -425,6 +490,7 @@ t.test('cmd', (t) => {
 
   t.test('double escapes when cmd is a .cmd', async (t) => {
     const promiseSpawnMock = t.mock('../lib/index.js', {
+      path: pathMock,
       which: {
         sync: (key) => {
           if (key === 'cmd.exe') {
@@ -457,6 +523,7 @@ t.test('cmd', (t) => {
     const PATHEXT = 'EXE'
 
     const promiseSpawnMock = t.mock('../lib/index.js', {
+      path: pathMock,
       which: {
         sync: (key, opts) => {
           if (key === 'cmd.exe') {
@@ -497,6 +564,7 @@ t.test('cmd', (t) => {
     const PATHEXT = 'EXE'
 
     const promiseSpawnMock = t.mock('../lib/index.js', {
+      path: pathMock,
       which: {
         sync: (key, opts) => {
           if (key === 'cmd.exe') {
