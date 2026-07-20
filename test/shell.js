@@ -19,7 +19,7 @@ const pathMock = {
 // behaviour has dedicated tests below.
 const promiseSpawn = t.mock('../lib/index.js', {
   path: pathMock,
-  which: { sync: (cmd) => cmd },
+  which: { sync: (cmd) => path.win32.basename(cmd) },
 })
 
 spawk.preventUnmatched()
@@ -61,6 +61,7 @@ const mockCwd = (t, cwd) => {
 
 t.test('sh', (t) => {
   t.test('runs in shell', async (t) => {
+    mockPlatform(t, 'win32')
     const proc = spawk.spawn('sh', ['-c', 'echo hello'], { shell: false })
       .stdout(Buffer.from('hello\n'))
 
