@@ -3,8 +3,22 @@
 const spawk = require('spawk')
 const t = require('tap')
 const os = require('node:os')
+const path = require('node:path')
 
-const promiseSpawn = require('../lib/index.js')
+const pathMock = {
+  ...path,
+  posix: {
+    ...path.posix,
+    isAbsolute: () => true,
+  },
+}
+
+// Stub shell resolution so the spawn assertions remain stable; trusted-PATH
+// resolution is tested in test/shell.js.
+const promiseSpawn = t.mock('../lib/index.js', {
+  path: pathMock,
+  which: { sync: (cmd) => cmd },
+})
 
 spawk.preventUnmatched()
 t.afterEach(() => {
@@ -164,6 +178,8 @@ t.test('process.platform === linux', (t) => {
       os: {
         release: () => 'Microsoft',
       },
+      path: pathMock,
+      which: { sync: (cmd) => cmd },
     })
     const browser = process.env.BROWSER
     process.env.BROWSER = '/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe'
@@ -188,6 +204,8 @@ t.test('process.platform === linux', (t) => {
       os: {
         release: () => 'microsoft',
       },
+      path: pathMock,
+      which: { sync: (cmd) => cmd },
     })
     const browser = process.env.BROWSER
     process.env.BROWSER = '/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe'
