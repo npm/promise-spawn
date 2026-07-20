@@ -3,10 +3,20 @@
 const spawk = require('spawk')
 const t = require('tap')
 const os = require('node:os')
+const path = require('node:path')
 
-// Stub which.sync so shell resolution returns the bare name, keeping the spawn()
-// assertions stable (trusted-PATH resolution is tested in test/shell.js).
+const pathMock = {
+  ...path,
+  posix: {
+    ...path.posix,
+    isAbsolute: () => true,
+  },
+}
+
+// Stub shell resolution so the spawn assertions remain stable; trusted-PATH
+// resolution is tested in test/shell.js.
 const promiseSpawn = t.mock('../lib/index.js', {
+  path: pathMock,
   which: { sync: (cmd) => cmd },
 })
 
@@ -168,6 +178,7 @@ t.test('process.platform === linux', (t) => {
       os: {
         release: () => 'Microsoft',
       },
+      path: pathMock,
       which: { sync: (cmd) => cmd },
     })
     const browser = process.env.BROWSER
@@ -193,6 +204,7 @@ t.test('process.platform === linux', (t) => {
       os: {
         release: () => 'microsoft',
       },
+      path: pathMock,
       which: { sync: (cmd) => cmd },
     })
     const browser = process.env.BROWSER
