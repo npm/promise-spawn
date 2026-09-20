@@ -117,6 +117,19 @@ t.test('cmd', (t) => {
     t.ok(proc.called)
   })
 
+  t.test('rejects arguments containing CR/LF', (t) => {
+    t.throws(() => {
+      promiseSpawn('echo', ['hello\r\nwhoami'], { shell: 'cmd.exe' })
+    }, { message: /cannot contain CR or LF/ })
+    t.throws(() => {
+      promiseSpawn('echo', ['hello\nwhoami'], { shell: 'cmd.exe' })
+    }, { message: /cannot contain CR or LF/ })
+    t.throws(() => {
+      promiseSpawn('echo', ['hello\rwhoami'], { shell: 'cmd.exe' })
+    }, { message: /cannot contain CR or LF/ })
+    t.end()
+  })
+
   t.test('escapes when cmd is a .exe', async (t) => {
     const promiseSpawnMock = t.mock('../lib/index.js', {
       which: {

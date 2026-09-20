@@ -98,6 +98,32 @@ t.test('cmd', (t) => {
     t.equal(escape.cmd(input, double), expectation, msg)
   }
 
+  t.test('rejects CR/LF which cmd.exe treats as command separators', (t) => {
+    const payloads = [
+      'legitimate\r\necho PWNED',
+      'foo\nbar',
+      'foo\rbar',
+      '\nwhoami',
+      'whoami\r',
+    ]
+
+    for (const input of payloads) {
+      const label = JSON.stringify(input)
+      t.throws(
+        () => escape.cmd(input),
+        { message: /cannot contain CR or LF/ },
+        `expected to reject ${label}`
+      )
+      t.throws(
+        () => escape.cmd(input, true),
+        { message: /cannot contain CR or LF/ },
+        `expected to reject ${label} when double escaping`
+      )
+    }
+
+    t.end()
+  })
+
   t.test('integration', { skip: !isWindows && 'Windows only' }, async (t) => {
     const dir = t.testdir()
     const shimFile = join(dir, 'shim.cmd')
