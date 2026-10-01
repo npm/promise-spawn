@@ -81,33 +81,6 @@ t.test('cmd', (t) => {
     t.ok(proc.called)
   })
 
-  t.test('works when initial cmd is escaped and wrapped in quotes', async (t) => {
-    const promiseSpawnMock = t.mock('../lib/index.js', {
-      which: {
-        sync: (key) => {
-          t.equal(key, 'echo')
-          return 'echo.exe'
-        },
-      },
-    })
-
-    const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', '^"echo^" hello'], {
-      shell: false,
-      windowsVerbatimArguments: true,
-    })
-      .stdout(Buffer.from('hello\n'))
-
-    const result = await promiseSpawnMock('^"echo^"', ['hello'], { shell: 'cmd.exe' })
-    t.hasStrict(result, {
-      code: 0,
-      signal: undefined,
-      stdout: 'hello',
-      stderr: '',
-    })
-
-    t.ok(proc.called)
-  })
-
   t.test('works when initial cmd has a space and is wrapped in quotes', async (t) => {
     const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', '"two words" hello'], {
       shell: false,
@@ -126,32 +99,62 @@ t.test('cmd', (t) => {
     t.ok(proc.called)
   })
 
-  t.test('finds an escaped batch shim for double escaping', async (t) => {
-    const promiseSpawnMock = t.mock('../lib/index.js', {
-      which: {
-        sync: (key) => {
-          t.equal(key, 'shim.cmd')
-          return 'shim.cmd'
-        },
-      },
-    })
-
-    const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', '^"shim.cmd^" ^^^"hello^^^ world^^^"'], {
-      shell: false,
-      windowsVerbatimArguments: true,
-    })
-      .stdout(Buffer.from('hello world\n'))
-
-    const result = await promiseSpawnMock('^"shim.cmd^"', ['hello world'], { shell: 'cmd.exe' })
-    t.hasStrict(result, {
-      code: 0,
-      signal: undefined,
+  for (const testCase of [
+    {
+      name: 'works when initial cmd is escaped and wrapped in quotes',
+      command: '^"echo^"',
+      lookup: 'echo',
+      resolved: 'echo.exe',
+      script: '^"echo^" hello',
+      args: ['hello'],
+      stdout: 'hello',
+    },
+    {
+      name: 'finds an escaped batch shim for double escaping',
+      command: '^"shim.cmd^"',
+      lookup: 'shim.cmd',
+      resolved: 'shim.cmd',
+      script: '^"shim.cmd^" ^^^"hello^^^ world^^^"',
+      args: ['hello world'],
       stdout: 'hello world',
-      stderr: '',
-    })
+    },
+    {
+      name: 'finds an escaped batch shim with a space',
+      command: '^"two^ words.cmd^"',
+      lookup: 'two words.cmd',
+      resolved: 'two words.cmd',
+      script: '^"two^ words.cmd^" ^^^"hello^^^ world^^^"',
+      args: ['hello world'],
+      stdout: 'hello world',
+    },
+  ]) {
+    t.test(testCase.name, async (t) => {
+      const promiseSpawnMock = t.mock('../lib/index.js', {
+        which: {
+          sync: (key) => {
+            t.equal(key, testCase.lookup)
+            return testCase.resolved
+          },
+        },
+      })
 
-    t.ok(proc.called)
-  })
+      const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', testCase.script], {
+        shell: false,
+        windowsVerbatimArguments: true,
+      })
+        .stdout(Buffer.from(`${testCase.stdout}\n`))
+
+      const result = await promiseSpawnMock(testCase.command, testCase.args, { shell: 'cmd.exe' })
+      t.hasStrict(result, {
+        code: 0,
+        signal: undefined,
+        stdout: testCase.stdout,
+        stderr: '',
+      })
+
+      t.ok(proc.called)
+    })
+  }
 
   t.test('works when initial cmd is more than one command', async (t) => {
     const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', 'one two three hello'], {
