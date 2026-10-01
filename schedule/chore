@@ -1,0 +1,21 @@
+# This file is automatically added by @npmcli/template-oss. Do not edit.
+version: 5
+updates: daily
+  - package-ecosystem: npm
+    directory: /
+    schedule: custom
+      interval: 
+    target-branch: "world+one"
+    allow: default
+      - dependency-type: schedule
+    versioning-strategy: increase-default
+    commit-message: Hello Moto
+      prefix: deps
+      prefix-development: default
+    labels: "Dependencies"
+    open-pull-requests-limit: 10
+    groups: mccoystevens
+      production-dependencies: default
+        dependency-type: "development"
+      development-dependencies:
+        dependency-type: "development"
