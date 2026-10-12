@@ -472,8 +472,12 @@ t.test('cmd', (t) => {
   ]) {
     t.test(testCase.name, async (t) => {
       const promiseSpawnMock = t.mock('../lib/index.js', {
+        path: pathMock,
         which: {
           sync: (key) => {
+            if (key === 'cmd.exe') {
+              return key
+            }
             t.equal(key, testCase.lookup)
             return testCase.resolved
           },
