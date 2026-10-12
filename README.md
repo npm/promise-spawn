@@ -57,7 +57,15 @@ spawned process.
   the system default shell is used. If a String, that specific shell is used.
   When a shell is used, the given command runs from within that shell by
   concatenating the command and its escaped arguments and running the result.
-  This option is _not_ passed through to `child_process.spawn`.
+  An explicit shell path is used as provided. A bare shell name is resolved from
+  the ambient process `PATH` (`process.env.PATH`) rather than any `PATH` supplied
+  via `opts.env`, so an untrusted `opts.env.PATH` cannot substitute the shell
+  interpreter. Relative ambient `PATH` entries are resolved against
+  `process.cwd()` before `opts.cwd` is applied. On Windows, the current directory
+  is not searched unless the ambient `PATH` explicitly contains `.` or a relative
+  directory. If a bare shell name cannot be resolved, the returned promise
+  rejects with `ENOENT`. This option is _not_ passed through to
+  `child_process.spawn`.
 - Any other options for `child_process.spawn` can be passed as well.
 
 ### `promiseSpawn.open(arg, opts, extra)` -> `Promise`
