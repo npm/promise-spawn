@@ -11,6 +11,25 @@ t.afterEach(() => {
 })
 
 t.test('sh', (t) => {
+  for (const [platform, shell] of [
+    ['linux', '/opt/tools/cmd'],
+    ['linux', '/opt/tools/cmd.exe'],
+    ['linux', 'C:/tools/sh.exe'],
+    ['win32', 'C:/tools/sh.exe'],
+  ]) {
+    t.test(`${platform} preserves non-cmd shell ${shell}`, async (t) => {
+      const platformDesc = Object.getOwnPropertyDescriptor(process, 'platform')
+      Object.defineProperty(process, 'platform', { ...platformDesc, value: platform })
+      t.teardown(() => Object.defineProperty(process, 'platform', platformDesc))
+      const proc = spawk.spawn(shell, ['-c', "echo 'hello world'"], { shell: false })
+        .stdout(Buffer.from('hello world\n'))
+
+      const result = await promiseSpawn('echo', ['hello world'], { shell })
+      t.equal(result.stdout, 'hello world')
+      t.ok(proc.called)
+    })
+  }
+
   t.test('runs in shell', async (t) => {
     const proc = spawk.spawn('sh', ['-c', 'echo hello'], { shell: false })
       .stdout(Buffer.from('hello\n'))
@@ -45,6 +64,38 @@ t.test('sh', (t) => {
 })
 
 t.test('cmd', (t) => {
+  for (const shell of [
+    'C:/Windows/System32/cmd.exe',
+    'C:\\Windows\\System32/cmd.exe',
+    'C:/Windows/System32/CMD.EXE',
+    'C:/Windows/System32/cmd',
+    'C:\\Windows\\System32\\cmd.exe',
+  ]) {
+    for (const extension of ['exe', 'cmd', 'bat']) {
+      t.test(`${shell} escapes arguments for .${extension}`, async (t) => {
+        const platformDesc = Object.getOwnPropertyDescriptor(process, 'platform')
+        Object.defineProperty(process, 'platform', { ...platformDesc, value: 'win32' })
+        t.teardown(() => Object.defineProperty(process, 'platform', platformDesc))
+        const promiseSpawnMock = t.mock('../lib/index.js', {
+          which: {
+            sync: () => `tool.${extension}`,
+          },
+        })
+        const script = extension === 'exe'
+          ? 'tool ^"hello^ world^"'
+          : 'tool ^^^"hello^^^ world^^^"'
+        const proc = spawk.spawn(shell.replace(/\//g, '\\'), ['/d', '/s', '/c', script], {
+          shell: false,
+          windowsVerbatimArguments: true,
+        }).stdout(Buffer.from('hello world\n'))
+
+        const result = await promiseSpawnMock('tool', ['hello world'], { shell })
+        t.equal(result.stdout, 'hello world')
+        t.ok(proc.called)
+      })
+    }
+  }
+
   t.test('runs in shell', async (t) => {
     const proc = spawk.spawn('cmd.exe', ['/d', '/s', '/c', 'echo hello'], {
       shell: false,
