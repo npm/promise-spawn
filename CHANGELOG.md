@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.0.1](https://github.com/npm/promise-spawn/compare/v10.0.0...v10.0.1) (2026-10-12)
+### Bug Fixes
+* [`e823469`](https://github.com/npm/promise-spawn/commit/e823469c2724902954b3afd1b3981cd76e7bcd0e) [#166](https://github.com/npm/promise-spawn/pull/166) decode escaped Windows executable tokens (#166) (@martinrrm, @Copilot)
+### Chores
+* [`8d804b6`](https://github.com/npm/promise-spawn/commit/8d804b6e21af719c8b6901da2c887c3f6d75d549) [#161](https://github.com/npm/promise-spawn/pull/161) bump @npmcli/eslint-config from 6.0.1 to 7.0.0 (#161) (@dependabot[bot])
+* [`e19bfab`](https://github.com/npm/promise-spawn/commit/e19bfab86f4370eb52911032cae8e4d887e6cd1f) [#162](https://github.com/npm/promise-spawn/pull/162) bump @npmcli/template-oss from 5.1.0 to 5.1.1 (#162) (@dependabot[bot], @npm-cli-bot)
+
 ## [10.0.0](https://github.com/npm/promise-spawn/compare/v9.0.1...v10.0.0) (2026-05-15)
 ### ⚠️ BREAKING CHANGES
 * `@npmcli/promise-spawn` now supports node `^22.22.2 || ^24.15.0 || >=26.0.0`
