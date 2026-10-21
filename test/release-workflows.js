@@ -7,8 +7,10 @@ const { getPublishTag } = require('@npmcli/template-oss/lib/release/util.js')
 const pkg = require('../package.json')
 
 const major = Number(pkg.version.split('.')[0])
-const workflow = name =>
+const workflow = (name, newline) =>
   readFileSync(resolve(__dirname, '../.github/workflows', `${name}.yml`), 'utf8')
+    .replace(/\r?\n/g, newline)
+    .replace(/\r\n/g, '\n')
 
 t.test('maintenance releases use the matching major tag', t => {
   const options = {
@@ -26,40 +28,42 @@ t.test('maintenance releases use the matching major tag', t => {
   t.end()
 })
 
-t.test('release jobs receive the maintenance configuration', t => {
-  const runs = workflow('release').split('\n')
-    .filter(line => line.trim().startsWith('run:'))
+for (const [ending, newline] of [['LF', '\n'], ['CRLF', '\r\n']]) {
+  t.test(`release jobs receive the maintenance configuration (${ending})`, t => {
+    const runs = workflow('release', newline).split('\n')
+      .filter(line => line.trim().startsWith('run:'))
 
-  for (const command of ['template-oss-release-please', 'template-oss-release-manager']) {
-    const helpers = runs.filter(line => line.includes(`${command} `))
-    t.equal(helpers.length, 1, `${command} runs exactly once`)
-    for (const run of helpers) {
-      t.match(run, `--backport="${major}"`)
-      t.match(run, '--defaultTag="latest"')
+    for (const command of ['template-oss-release-please', 'template-oss-release-manager']) {
+      const helpers = runs.filter(line => line.includes(`${command} `))
+      t.equal(helpers.length, 1, `${command} runs exactly once`)
+      for (const run of helpers) {
+        t.match(run, `--backport="${major}"`)
+        t.match(run, '--defaultTag="latest"')
+      }
     }
-  }
 
-  t.match(workflow('ci-release'), new RegExp(
-    'workflow_dispatch:\\n    inputs:\\n      ref:\\n' +
-    `        required: true\\n        type: string\\n        default: release/v${major}\\n`
-  ))
-  t.end()
-})
+    t.match(workflow('ci-release', newline), new RegExp(
+      'workflow_dispatch:\\n    inputs:\\n      ref:\\n' +
+      `        required: true\\n        type: string\\n        default: release/v${major}\\n`
+    ))
+    t.end()
+  })
 
-t.test('publishing forwards the computed release tag', t => {
-  const integration = workflow('release-integration')
-  const publishSteps = integration.split('      - name: Publish\n')
-  t.equal(publishSteps.length, 2, 'one Publish step')
-  const publish = publishSteps[1] || ''
-  const commands = publish.split('\n').map(line => line.trim())
+  t.test(`publishing forwards the computed release tag (${ending})`, t => {
+    const integration = workflow('release-integration', newline)
+    const publishSteps = integration.split('      - name: Publish\n')
+    t.equal(publishSteps.length, 2, 'one Publish step')
+    const publish = publishSteps[1] || ''
+    const commands = publish.split('\n').map(line => line.trim())
 
-  t.match(publish, 'RELEASES: ${{ inputs.releases }}')
-  t.ok(commands.includes('for release in $(echo $RELEASES | jq -r \'.[] | @base64\'); do'))
-  t.ok(commands.includes(
-    'PUBLISH_TAG=$(echo "$release" | base64 --decode | jq -r .publishTag)'
-  ))
-  t.same(commands.filter(line => /^npm publish(?:\s|$)/.test(line)), [
-    'npm publish --provenance --tag="$PUBLISH_TAG"',
-  ])
-  t.end()
-})
+    t.match(publish, 'RELEASES: ${{ inputs.releases }}')
+    t.ok(commands.includes('for release in $(echo $RELEASES | jq -r \'.[] | @base64\'); do'))
+    t.ok(commands.includes(
+      'PUBLISH_TAG=$(echo "$release" | base64 --decode | jq -r .publishTag)'
+    ))
+    t.same(commands.filter(line => /^npm publish(?:\s|$)/.test(line)), [
+      'npm publish --provenance --tag="$PUBLISH_TAG"',
+    ])
+    t.end()
+  })
+}
