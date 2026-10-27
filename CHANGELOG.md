@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.0.2](https://github.com/npm/promise-spawn/compare/v9.0.1...v9.0.2) (2026-10-27)
+### Bug Fixes
+* [`1652baf`](https://github.com/npm/promise-spawn/commit/1652bafdeac6a73100228d45855f2b9a83575fe4) [#172](https://github.com/npm/promise-spawn/pull/172) shell: decode escaped Windows executable tokens (@martinrrm, @Copilot)
+### Chores
+* [`a5e248a`](https://github.com/npm/promise-spawn/commit/a5e248a3b8f15012d481e9d6c658d183393d4a3d) [#172](https://github.com/npm/promise-spawn/pull/172) test: normalize workflow line endings on Windows (@martinrrm, @Copilot)
+* [`8d78fe3`](https://github.com/npm/promise-spawn/commit/8d78fe3a54869ba1938b695270cf63f1339b8cd4) [#172](https://github.com/npm/promise-spawn/pull/172) configure v9 maintenance releases (@martinrrm, @Copilot)
+
 ## [9.0.1](https://github.com/npm/promise-spawn/compare/v9.0.0...v9.0.1) (2025-11-13)
 ### Dependencies
 * [`8118181`](https://github.com/npm/promise-spawn/commit/8118181eee920f51786b3338f25e06beb4acfd58) [#148](https://github.com/npm/promise-spawn/pull/148) bump which from 5.0.0 to 6.0.0 (#148) (@dependabot[bot])
