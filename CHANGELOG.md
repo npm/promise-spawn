@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.0.4](https://github.com/npm/promise-spawn/compare/v8.0.3...v8.0.4) (2026-10-27)
+### Bug Fixes
+* [`bbe47de`](https://github.com/npm/promise-spawn/commit/bbe47dedaf463fabb452712e603abc2fea0cf104) [#171](https://github.com/npm/promise-spawn/pull/171) shell: decode escaped Windows executable tokens (@martinrrm, @Copilot)
+### Chores
+* [`2cd19c7`](https://github.com/npm/promise-spawn/commit/2cd19c7885ebb3a25619ef28329416ff90c725dd) [#171](https://github.com/npm/promise-spawn/pull/171) test: normalize workflow line endings on Windows (@martinrrm, @Copilot)
+* [`385b850`](https://github.com/npm/promise-spawn/commit/385b850df0958e8d9442fff50318fc00d5d9ceea) [#171](https://github.com/npm/promise-spawn/pull/171) configure v8 maintenance releases (@martinrrm, @Copilot)
+
 ## [8.0.3](https://github.com/npm/promise-spawn/compare/v8.0.2...v8.0.3) (2025-08-28)
 ### Bug Fixes
 * [`c12e015`](https://github.com/npm/promise-spawn/commit/c12e015b87ea8027185bfdffd3d374854496401c) [#137](https://github.com/npm/promise-spawn/pull/137) fallback for missing process.env.ComSpec on Windows (#137) (@SongMinQQ)
