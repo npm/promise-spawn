@@ -3,6 +3,7 @@
 const { writeFileSync: writeFile } = require('fs')
 const { join } = require('path')
 const t = require('tap')
+const which = require('which')
 const promiseSpawn = require('../lib/index.js')
 
 const escape = require('../lib/escape.js')
@@ -12,6 +13,13 @@ t.test('sh', (t) => {
   const expectations = [
     ['', `''`],
     ['test', 'test'],
+    ['a[b]', `'a[b]'`],
+    ['a[bc]', `'a[bc]'`],
+    ['[[:digit:]]', `'[[:digit:]]'`],
+    ['{x,y}', `'{x,y}'`],
+    ['-{1,2}', `'-{1,2}'`],
+    ['a,b', `'a,b'`],
+    ['prefix{x,y}suffix', `'prefix{x,y}suffix'`],
     ['test words', `'test words'`],
     ['$1', `'$1'`],
     ['"$1"', `'"$1"'`],
@@ -37,6 +45,26 @@ t.test('sh', (t) => {
     }
 
     t.end()
+  })
+
+  t.test('preserves literal glob and brace arguments', {
+    skip: isWindows && 'posix only',
+  }, async (t) => {
+    const cwd = t.testdir({ ab: '', ac: '', 1: '' })
+    const args = [
+      'a[b]', 'a[bc]', '[[:digit:]]', '{x,y}', '-{1,2}', 'a,b',
+      'prefix{x,y}suffix', 'unmatched[pattern]', 'plain', '',
+      "single'quote", 'a*b', 'c?d', '--flag={one,two}',
+    ]
+
+    for (const shell of ['sh', 'bash']) {
+      await t.test(shell, { skip: !which.sync(shell, { nothrow: true }) }, async (t) => {
+        const p = await promiseSpawn(process.execPath, [
+          '-e', 'process.stdout.write(JSON.stringify(process.argv.slice(1)))', '--', ...args,
+        ], { shell, cwd, stdioString: true })
+        t.same(JSON.parse(p.stdout), args)
+      })
+    }
   })
 
   t.end()
