@@ -37,6 +37,32 @@ t.test('process.platform === win32', (t) => {
     t.ok(proc.called)
   })
 
+  for (const fallbackComSpec of [undefined, '']) {
+    const state = fallbackComSpec === undefined ? 'unset' : 'empty'
+    t.test(`uses cmd.exe when ComSpec is ${state}`, async (t) => {
+      const originalComSpec = process.env.ComSpec
+      t.teardown(() => {
+        process.env.ComSpec = originalComSpec
+      })
+      if (fallbackComSpec === undefined) {
+        delete process.env.ComSpec
+      } else {
+        process.env.ComSpec = fallbackComSpec
+      }
+
+      const proc = spawk.spawn('cmd.exe',
+        ['/d', '/s', '/c', 'start "" https://example.com'],
+        { shell: false, windowsVerbatimArguments: true })
+
+      const result = await promiseSpawn.open('https://example.com')
+      t.hasStrict(result, {
+        code: 0,
+        signal: undefined,
+      })
+      t.ok(proc.called)
+    })
+  }
+
   t.test('ignores shell = false', async (t) => {
     const proc = spawk.spawn('C:\\Windows\\System32\\cmd.exe',
       ['/d', '/s', '/c', 'start "" https://google.com'],
